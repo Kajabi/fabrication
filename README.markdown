@@ -6,7 +6,7 @@ Fabrication is an object generation framework for Ruby.
 
 ## Compatibility
 
-Fabrication is tested against Ruby 2.2 and above.
+Fabrication is tested against all officially supported versions of Ruby.
 
 ## Documentation
 
