@@ -1,6 +1,6 @@
 ### Contributing
 
-I ([paulelliott](http://github.com/paulelliott)) am actively maintaining this
+I ([paulelliott](https://gitlab.com/paulelliott)) am actively maintaining this
 project. If you would like to contribute, please fork the project, TDD your
 changes with rspec on a feature branch, and submit a pull request.
 
