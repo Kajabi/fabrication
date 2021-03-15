@@ -9,6 +9,7 @@ test-ruby-3.0:
   script:
   - bundle
   - bundle exec appraisal install
+  - bundle exec appraisal rails-6.1 rake cucumber
   - bundle exec appraisal rails-6.1 rspec
   - bundle exec appraisal rails-6.0 rspec
   - bundle exec appraisal mongoid-7.x rspec
@@ -23,7 +24,7 @@ test-ruby-2-7:
   script:
   - bundle
   - bundle exec appraisal install
-  - bundle exec appraisal rspec
+  - bundle exec rake
 
 test-ruby-2-6:
   stage: test
@@ -34,7 +35,7 @@ test-ruby-2-6:
   - gem install bundler:2.1.4 --force
   - bundle
   - bundle exec appraisal install
-  - bundle exec appraisal rspec
+  - bundle exec rake
 
 test-ruby-2-5:
   stage: test
@@ -45,4 +46,4 @@ test-ruby-2-5:
   - gem install bundler:2.1.4 --force
   - bundle
   - bundle exec appraisal install
-  - bundle exec appraisal rspec
+  - bundle exec rake
