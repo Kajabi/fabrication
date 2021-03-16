@@ -1,16 +1,15 @@
 require 'spec_helper'
 
 describe Fabrication::Schematic::Attribute do
-
   describe ".new" do
     context "with name, params, and a static value" do
       subject do
-        Fabrication::Schematic::Attribute.new(Object, "a", "c", {:b => 1})
+        Fabrication::Schematic::Attribute.new(Object, "a", "c", { :b => 1 })
       end
 
       its(:klass)  { should == Object }
       its(:name)   { should == "a" }
-      its(:params) { should == {:b => 1} }
+      its(:params) { should == { :b => 1 } }
       its(:value)  { should == "c" }
       it { should_not be_transient }
     end
@@ -27,6 +26,7 @@ describe Fabrication::Schematic::Attribute do
 
     context "with nils" do
       subject { Fabrication::Schematic::Attribute.new(Object, "a", nil) }
+
       its(:params) { should == {} }
       its(:value) { should be_nil }
     end
@@ -34,6 +34,7 @@ describe Fabrication::Schematic::Attribute do
 
   describe '#transient?' do
     subject { Fabrication::Schematic::Attribute.new(Object, "a", nil, transient: true) }
+
     it { should be_transient }
   end
 
@@ -42,6 +43,7 @@ describe Fabrication::Schematic::Attribute do
 
     context 'singular value' do
       let(:attribute) { Fabrication::Schematic::Attribute.new(Object, "a", "something") }
+
       it { should == 'something' }
     end
 
@@ -49,20 +51,22 @@ describe Fabrication::Schematic::Attribute do
       let(:attribute) do
         Fabrication::Schematic::Attribute.new(Object, "a", nil, {}) { 'something' }
       end
+
       it { should == 'something' }
     end
 
     context 'collection block' do
       let(:attribute) do
-        Fabrication::Schematic::Attribute.new(Object, "a", nil, {count: 2}) { 'something' }
+        Fabrication::Schematic::Attribute.new(Object, "a", nil, { count: 2 }) { 'something' }
       end
+
       it { should == %w(something something) }
     end
 
     context 'collection block with random amount' do
       let(:random_amount) { 3 }
       let(:attribute) do
-        Fabrication::Schematic::Attribute.new(Object, "a", nil, {rand: random_amount}) { 'something' }
+        Fabrication::Schematic::Attribute.new(Object, "a", nil, { rand: random_amount }) { 'something' }
       end
 
       it 'returns random number of items in collection with a max of passed in value' do
@@ -73,7 +77,7 @@ describe Fabrication::Schematic::Attribute do
     context 'collection block with random amount given as range' do
       let(:random_amount_range) { 10..21 }
       let(:attribute) do
-        Fabrication::Schematic::Attribute.new(Object, "a", nil, {rand: random_amount_range}) { 'something' }
+        Fabrication::Schematic::Attribute.new(Object, "a", nil, { rand: random_amount_range }) { 'something' }
       end
 
       it 'returns random number of items in collection with a max of passed in value' do
@@ -85,7 +89,7 @@ describe Fabrication::Schematic::Attribute do
       let(:range_start) { 10 }
       let(:range_end) { 21 }
       let(:attribute) do
-        Fabrication::Schematic::Attribute.new(Object, "a", nil, {start_range: range_start, end_range: range_end}) { 'something' }
+        Fabrication::Schematic::Attribute.new(Object, "a", nil, { start_range: range_start, end_range: range_end }) { 'something' }
       end
 
       it 'returns random number of items in collection with a min and max of passed in value' do

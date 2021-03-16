@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Fabrication::Schematic::Definition do
-
   let(:schematic) do
     Fabrication::Schematic::Definition.new('OpenStruct') do
       name "Orgasmo"
@@ -15,16 +14,19 @@ describe Fabrication::Schematic::Definition do
 
     context "for an activerecord object", depends_on: :active_record do
       let(:klass) { 'ParentActiveRecordModel' }
+
       it { should == Fabrication::Generator::ActiveRecord }
     end
 
     context "for a mongoid object", depends_on: :mongoid do
       let(:klass) { 'ParentMongoidDocument' }
+
       it { should == Fabrication::Generator::Mongoid }
     end
 
     context "for a sequel object", depends_on: :sequel do
       let(:klass) { 'ParentSequelModel' }
+
       it { should == Fabrication::Generator::Sequel }
     end
   end
@@ -33,9 +35,11 @@ describe Fabrication::Schematic::Definition do
     it "stores the name" do
       expect(schematic.name).to eq('OpenStruct')
     end
+
     it "stores the generator" do
       expect(schematic.generator).to eq(Fabrication::Generator::Base)
     end
+
     it "stores the attributes" do
       expect(schematic.attributes.size).to eq(3)
     end
@@ -45,6 +49,7 @@ describe Fabrication::Schematic::Definition do
     it "returns the requested attribute if it exists" do
       expect(schematic.attribute(:name).name).to eq(:name)
     end
+
     it "returns nil if it does not exist" do
       expect(schematic.attribute(:not_there)).to be_nil
     end
@@ -90,9 +95,7 @@ describe Fabrication::Schematic::Definition do
   end
 
   describe "#merge" do
-
     context "without inheritance" do
-
       subject { schematic.merge }
 
       it { should_not == schematic }
@@ -119,11 +122,9 @@ describe Fabrication::Schematic::Definition do
         expect(Proc).to be === attribute.value
         expect(attribute.value.call).to eq(25)
       end
-
     end
 
     context "with inheritance" do
-
       subject do
         schematic.merge do
           name { "Willis" }
@@ -156,9 +157,7 @@ describe Fabrication::Schematic::Definition do
         expect(Proc).to be === attribute.value
         expect(attribute.value.call).to eq("Boo-ya!")
       end
-
     end
-
   end
 
   describe "#on_init" do
@@ -244,6 +243,7 @@ describe Fabrication::Schematic::Definition do
 
   describe '#sorted_attributes' do
     subject { definition.sorted_attributes.map(&:name) }
+
     let(:definition) do
       Fabrication::Schematic::Definition.new('OpenStruct') do
         three { nil }
@@ -251,11 +251,13 @@ describe Fabrication::Schematic::Definition do
         transient :two
       end
     end
+
     it { should == [:one, :two, :three] }
   end
 
   describe '#klass' do
     subject { schematic.klass }
+
     it { should be OpenStruct }
   end
 end

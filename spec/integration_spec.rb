@@ -2,6 +2,7 @@ require 'spec_helper'
 
 shared_examples 'something fabricatable' do
   subject { fabricated_object }
+
   let(:fabricated_object) { Fabricate(fabricator_name, placeholder: 'dynamic content') }
 
   context 'defaults from fabricator' do
@@ -37,6 +38,7 @@ shared_examples 'something fabricatable' do
 
     context 'child collections' do
       subject { fabricated_object.send(collection_field) }
+
       its(:size) { should == 2 }
       its(:first) { should be_persisted }
       its("first.number_field") { should == 10 }
@@ -49,6 +51,7 @@ shared_examples 'something fabricatable' do
     it 'generates a fresh object every time' do
       expect(Fabricate(fabricator_name)).not_to eq(subject)
     end
+
     it { should be_persisted }
   end
 
@@ -59,6 +62,7 @@ shared_examples 'something fabricatable' do
 
   context 'build' do
     subject { Fabricate.build("#{fabricator_name}_with_children") }
+
     it { should_not be_persisted }
 
     it 'cascades to child records' do
@@ -70,7 +74,9 @@ shared_examples 'something fabricatable' do
 
   context 'attributes for' do
     subject { Fabricate.attributes_for(fabricator_name) }
+
     it { should be_kind_of(Fabrication::Support.hash_class) }
+
     it 'serializes the attributes' do
       should include({
         :dynamic_field => nil,
@@ -95,20 +101,22 @@ shared_examples 'something fabricatable' do
 end
 
 describe Fabrication do
-
   context 'plain old ruby objects' do
     let(:fabricator_name) { :parent_ruby_object }
     let(:collection_field) { :child_ruby_objects }
+
     it_should_behave_like 'something fabricatable'
   end
 
   context 'active_record models', depends_on: :active_record do
     let(:fabricator_name) { :parent_active_record_model }
     let(:collection_field) { :child_active_record_models }
+
     it_should_behave_like 'something fabricatable'
 
     context 'associations in attributes_for' do
       let(:parent_model) { Fabricate(:parent_active_record_model) }
+
       subject do
         Fabricate.attributes_for(:child_active_record_model, parent_active_record_model: parent_model)
       end
@@ -120,7 +128,9 @@ describe Fabrication do
 
     context 'association proxies' do
       subject { parent_model.child_active_record_models.build }
+
       let(:parent_model) { Fabricate(:parent_active_record_model_with_children) }
+
       it { should be_kind_of(ChildActiveRecordModel) }
     end
   end
@@ -133,6 +143,7 @@ describe Fabrication do
 
     context 'associations in attributes_for' do
       let(:parent_model) { Fabricate(:parent_data_mapper_model) }
+
       subject do
         Fabricate.attributes_for(
           :child_data_mapper_model, parent_data_mapper_model: parent_model
@@ -148,18 +159,21 @@ describe Fabrication do
   context 'referenced mongoid documents', depends_on: :mongoid do
     let(:fabricator_name) { :parent_mongoid_document }
     let(:collection_field) { :referenced_mongoid_documents }
+
     it_should_behave_like 'something fabricatable'
   end
 
   context 'embedded mongoid documents', depends_on: :mongoid do
     let(:fabricator_name) { :parent_mongoid_document }
     let(:collection_field) { :embedded_mongoid_documents }
+
     it_should_behave_like 'something fabricatable'
   end
 
   context 'sequel models', depends_on: :sequel do
     let(:fabricator_name) { :parent_sequel_model }
     let(:collection_field) { :child_sequel_models }
+
     it_should_behave_like 'something fabricatable'
 
     context 'with class table inheritance' do
@@ -189,7 +203,7 @@ describe Fabrication do
       end
     end
 
-    its(:field1)  { should == 'value1' }
+    its(:field1) { should == 'value1' }
     its(:field2) { should == 'value2' }
   end
 
@@ -208,6 +222,7 @@ describe Fabrication do
 
   context 'with a field named the same as an Object method' do
     subject { Fabricate(:predefined_namespaced_class, display: 'working') }
+
     its(:display) { should == 'working' }
   end
 
@@ -243,12 +258,14 @@ describe Fabrication do
   context 'for namespaced classes' do
     context 'the namespaced class' do
       subject { Fabricate('namespaced_classes/ruby_object', name: 'working') }
+
       its(:name) { should eq('working') }
       it { should be_a(NamespacedClasses::RubyObject) }
     end
 
     context 'descendant from namespaced class' do
       subject { Fabricate(:predefined_namespaced_class) }
+
       its(:name) { should eq('aaa') }
       it { should be_a(NamespacedClasses::RubyObject) }
     end
@@ -278,30 +295,37 @@ describe Fabrication do
 
   context 'with multiple callbacks' do
     subject { Fabricate(:multiple_callbacks) }
+
     before(:all) do
       Fabricator(:multiple_callbacks, from: OpenStruct) do
         before_validation { |o| o.callback1 = 'value1' }
         before_validation { |o| o.callback2 = 'value2' }
       end
     end
+
     its(:callback1) { should == 'value1' }
     its(:callback2) { should == 'value2' }
   end
 
   context 'with multiple, inherited callbacks' do
     subject { Fabricate(:multiple_inherited_callbacks) }
+
     before(:all) do
       Fabricator(:multiple_inherited_callbacks, from: :multiple_callbacks) do
         before_validation { |o| o.callback3 = o.callback1 + o.callback2 }
       end
     end
+
     its(:callback3) { 'value1value2' }
   end
 
   describe '.clear_definitions' do
     before { Fabrication.clear_definitions }
+
     subject { Fabrication.manager }
+
     it { should be_empty }
+
     after { Fabrication.manager.load_definitions }
   end
 
@@ -313,6 +337,7 @@ describe Fabrication do
 
   context "when fabricating class that doesn't exist" do
     before { Fabricator(:class_that_does_not_exist) }
+
     it 'throws an error' do
       expect { Fabricate(:class_that_does_not_exist) }.to raise_error(Fabrication::UnfabricatableError)
     end
@@ -353,6 +378,7 @@ describe Fabrication do
 
   describe 'Fabricating while initializing' do
     before { Fabrication.manager.preinitialize }
+
     after { Fabrication.manager.freeze }
 
     it 'throws an error' do
@@ -369,7 +395,9 @@ describe Fabrication do
           name 'Hashrocket'
         end
       end
+
       after { Fabrication.clear_definitions }
+
       its(:name) { should == 'Hashrocket' }
       it { should be_kind_of(OpenStruct) }
     end
@@ -380,7 +408,9 @@ describe Fabrication do
           name 'Hashrocket'
         end
       end
+
       after { Fabrication.clear_definitions }
+
       its(:name) { should == 'Hashrocket' }
       it { should be_kind_of(OpenStruct) }
     end
@@ -455,5 +485,4 @@ describe Fabrication do
       end
     end
   end
-
 end

@@ -1,7 +1,5 @@
 class Fabrication::Support
-
   class << self
-
     def fabricatable?(name)
       Fabrication.manager[name] || class_for(name)
     end
@@ -24,9 +22,11 @@ class Fabrication::Support
           candidate = constant.const_get(name)
           next candidate if constant.const_defined?(name, false)
           next candidate unless Object.const_defined?(name)
+
           constant = constant.ancestors.inject do |const, ancestor|
             break const    if ancestor == Object
             break ancestor if ancestor.const_defined?(name, false)
+
             const
           end
           constant.const_get(name, false)
@@ -39,7 +39,7 @@ class Fabrication::Support
     end
 
     def variable_name_to_class_name(name)
-      name.to_s.gsub(/\/(.?)/){"::#{$1.upcase}"}.gsub(/(?:^|_)(.)/){$1.upcase}
+      name.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
     end
 
     def find_definitions
@@ -58,13 +58,11 @@ class Fabrication::Support
     end
 
     def underscore(string)
-      string.gsub(/::/, '/').
-        gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-        gsub(/([a-z\d])([A-Z])/,'\1_\2').
-        tr("-", "_").
-        downcase
+      string.gsub(/::/, '/')
+            .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
+            .gsub(/([a-z\d])([A-Z])/, '\1_\2')
+            .tr("-", "_")
+            .downcase
     end
-
   end
-
 end

@@ -7,9 +7,9 @@ module Fabrication
     def reset_defaults
       @fabricator_path =
         @path_prefix =
-        @sequence_start =
-        @generators =
-        nil
+          @sequence_start =
+            @generators =
+              nil
     end
 
     def fabricator_path
@@ -32,6 +32,7 @@ module Fabrication
     end
 
     attr_writer :sequence_start
+
     def sequence_start; @sequence_start ||= 0 end
 
     def path_prefix=(folders)
@@ -44,6 +45,7 @@ module Fabrication
     alias path_prefixes path_prefix
 
     attr_writer :register_with_steps
+
     def register_with_steps?
       @register_with_steps ||= nil
     end
@@ -55,6 +57,7 @@ module Fabrication
     end
 
     def recursion_limit; @recursion_limit ||= 20 end
+
     def recursion_limit=(limit); @recursion_limit = limit end
   end
 end

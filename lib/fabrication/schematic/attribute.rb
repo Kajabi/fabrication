@@ -1,9 +1,8 @@
 class Fabrication::Schematic::Attribute
-
   attr_accessor :klass, :name, :value
   attr_writer :params
 
-  def initialize(klass, name, value, params={}, &block)
+  def initialize(klass, name, value, params = {}, &block)
     self.klass = klass
     self.name = name
     self.params = params
@@ -33,6 +32,7 @@ class Fabrication::Schematic::Attribute
   end
 
   def value_static?; !value_proc? end
+
   def value_proc?; Proc === value end
 
   private
@@ -61,5 +61,4 @@ class Fabrication::Schematic::Attribute
   def rand_range
     Kernel.rand((params[:start_range]..params[:end_range])) if params[:start_range] && params[:end_range]
   end
-
 end
