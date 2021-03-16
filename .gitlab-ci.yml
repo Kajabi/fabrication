@@ -8,6 +8,7 @@ test-ruby-3.0:
     - mongo:latest
   script:
   - bundle
+  - bundle exec rubocop
   - bundle exec appraisal install
   - bundle exec rake cucumber
   - bundle exec appraisal rails-6.1 rspec
@@ -23,6 +24,7 @@ test-ruby-2-7:
     - mongo:latest
   script:
   - bundle
+  - bundle exec rubocop
   - bundle exec appraisal install
   - bundle exec rake
 
@@ -34,6 +36,7 @@ test-ruby-2-6:
   script:
   - gem install bundler:2.1.4 --force
   - bundle
+  - bundle exec rubocop
   - bundle exec appraisal install
   - bundle exec rake
 
@@ -45,5 +48,6 @@ test-ruby-2-5:
   script:
   - gem install bundler:2.1.4 --force
   - bundle
+  - bundle exec rubocop
   - bundle exec appraisal install
   - bundle exec rake
