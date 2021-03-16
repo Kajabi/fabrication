@@ -4,7 +4,7 @@ ORDINALS = {
 }
 
 def dehumanize(string)
-  string.gsub(/\W+/,'_').downcase
+  string.gsub(/\W+/, '_').downcase
 end
 
 def generate_fabricator_name(model_name)
@@ -15,7 +15,6 @@ def get_class(model_name)
   fabricator_name = generate_fabricator_name(model_name)
   Fabrication.manager[fabricator_name].send(:klass)
 end
-
 
 Then /^that ([^"]*) should be persisted$/ do |object_name|
   object_name = dehumanize(object_name)

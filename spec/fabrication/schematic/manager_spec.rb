@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Fabrication::Schematic::Manager do
-
   let(:manager) { Fabrication::Schematic::Manager.instance }
+
   before { manager.clear }
 
   describe "#register" do
@@ -35,20 +35,22 @@ describe Fabrication::Schematic::Manager do
         expect(subject.schematics[:thing_two]).to eq(subject.schematics[:open_struct])
       end
     end
-
   end
 
   describe '#[]' do
     subject { manager[key] }
+
     before { manager.schematics[:some] = 'thing' }
 
     context 'with a symbol' do
       let(:key) { :some }
+
       it { should == 'thing' }
     end
 
     context 'with a string' do
       let(:key) { 'some' }
+
       it { should == 'thing' }
     end
   end
@@ -79,5 +81,4 @@ describe Fabrication::Schematic::Manager do
       end
     end
   end
-
 end

@@ -1,18 +1,17 @@
 require 'spec_helper'
 
 describe Fabrication::Sequencer do
-
   context 'with no arguments' do
     subject { Fabrication::Sequencer.sequence }
 
     it { should == 0 }
+
     it 'creates a default sequencer' do
       expect(Fabrication::Sequencer.sequences[:_default]).to eq(1)
     end
   end
 
   context 'with only a name' do
-
     it 'starts with 0' do
       expect(Fabricate.sequence(:incr)).to eq(0)
     end
@@ -30,11 +29,9 @@ describe Fabrication::Sequencer do
       expect(Fabricate.sequence(:number)).to eq(2)
       expect(Fabricate.sequence(:number)).to eq(3)
     end
-
   end
 
   context 'with a name and starting number' do
-
     it 'starts with the number provided' do
       expect(Fabricate.sequence(:higher, 69)).to eq(69)
     end
@@ -45,11 +42,9 @@ describe Fabrication::Sequencer do
       expect(Fabricate.sequence(:higher)).to eq(72)
       expect(Fabricate.sequence(:higher)).to eq(73)
     end
-
   end
 
   context 'with a block' do
-
     it 'yields the number to the block and returns the value' do
       expect(Fabricate.sequence(:email) do |i|
         "user#{i}@example.com"
@@ -73,16 +68,19 @@ describe Fabrication::Sequencer do
         end
         expect(Fabricate.sequence(:changing_blocks)).to eq(10)
       end
+
       context 'and then with a new block' do
         it 'evaluates the new block' do
-          expect(Fabricate.sequence(:changing_blocks) { |i| i ** 2 }).to eq(4)
+          expect(Fabricate.sequence(:changing_blocks) { |i| i**2 }).to eq(4)
         end
+
         it 'remembers the new block' do
           expect(Fabricate.sequence(:changing_blocks)).to eq(9)
         end
       end
     end
   end
+
   context 'with two sequences declared with blocks' do
     it 'remembers both blocks' do
       Fabricate.sequence(:shapes) do |i|

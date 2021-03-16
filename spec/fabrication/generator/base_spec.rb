@@ -1,16 +1,15 @@
 require 'spec_helper'
 
 describe Fabrication::Generator::Base do
-
   describe ".supports?" do
     subject { Fabrication::Generator::Base }
+
     it "supports any object" do
       expect(subject.supports?(Object)).to be true
     end
   end
 
   describe "#build" do
-
     let(:generator) { Fabrication::Generator::Base.new(ParentRubyObject) }
 
     let(:attributes) do
@@ -53,7 +52,7 @@ describe Fabrication::Generator::Base do
       context "not using init_with" do
         let(:schematic) do
           Fabrication::Schematic::Definition.new('ClassWithInit') do
-            on_init { [ :a, :b ] }
+            on_init { [:a, :b] }
           end
         end
 
@@ -61,7 +60,6 @@ describe Fabrication::Generator::Base do
           expect(subject.arg1).to eq(:a)
           expect(subject.arg2).to eq(:b)
         end
-
       end
     end
 
@@ -83,9 +81,9 @@ describe Fabrication::Generator::Base do
 
       context "using attributes inside block" do
         let(:schematic) do
-           Fabrication::Schematic::Definition.new('ClassWithInit') do
-             arg1 10
-             initialize_with { Struct.new(:arg1, :arg2).new(arg1, arg1.to_i + 10) }
+          Fabrication::Schematic::Definition.new('ClassWithInit') do
+            arg1 10
+            initialize_with { Struct.new(:arg1, :arg2).new(arg1, arg1.to_i + 10) }
           end
         end
 
@@ -98,6 +96,7 @@ describe Fabrication::Generator::Base do
 
         context "with override" do
           subject { schematic.fabricate(arg1: 30) }
+
           it "saves the return value of the block as instance" do
             expect(subject.arg1).to eq(30)
             expect(subject.arg2).to eq(40)
@@ -106,6 +105,7 @@ describe Fabrication::Generator::Base do
 
         context "with nil override" do
           subject { schematic.fabricate(arg1: nil) }
+
           it "saves the return value of the block as instance" do
             expect(subject.arg1).to eq(nil)
             expect(subject.arg2).to eq(10)
@@ -133,6 +133,7 @@ describe Fabrication::Generator::Base do
 
     context 'all the callbacks' do
       subject { schematic.build }
+
       let(:schematic) do
         Fabrication::Schematic::Definition.new('ParentRubyObject') do
           string_field ""
@@ -141,6 +142,7 @@ describe Fabrication::Generator::Base do
           after_validation { |k| k.string_field += '3' }
         end
       end
+
       its(:string_field) { should == '1' }
     end
 
@@ -165,6 +167,7 @@ describe Fabrication::Generator::Base do
   describe '#create' do
     context 'all the callbacks' do
       subject { schematic.fabricate }
+
       let(:schematic) do
         Fabrication::Schematic::Definition.new('ParentRubyObject') do
           string_field ""
@@ -177,6 +180,7 @@ describe Fabrication::Generator::Base do
           after_save { |k| k.string_field += '7' }
         end
       end
+
       its(:string_field) { should == '1234567' }
     end
   end
@@ -199,5 +203,4 @@ describe Fabrication::Generator::Base do
       expect(Fabricate(:parent_ruby_object)).to be_persisted
     end
   end
-
 end

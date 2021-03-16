@@ -8,49 +8,9 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.5
 
-Layout/AssignmentIndentation:
-  Enabled: False
-Layout/BlockAlignment:
-  Enabled: False
-Layout/DotPosition:
-  Enabled: False
-Layout/EmptyLineAfterGuardClause:
-  Enabled: False
-Layout/EmptyLineAfterMagicComment:
-  Enabled: False
-Layout/EmptyLineBetweenDefs:
-  Enabled: False
-Layout/EmptyLines:
-  Enabled: False
-Layout/EmptyLinesAroundAttributeAccessor:
-  Enabled: False
-Layout/EmptyLinesAroundBlockBody:
-  Enabled: False
-Layout/EmptyLinesAroundClassBody:
-  Enabled: False
-Layout/EmptyLinesAroundModuleBody:
-  Enabled: False
-Layout/ExtraSpacing:
-  Enabled: False
 Layout/FirstHashElementIndentation:
   Enabled: False
-Layout/IndentationWidth:
-  Enabled: False
 Layout/LineLength:
-  Enabled: False
-Layout/SpaceAfterComma:
-  Enabled: False
-Layout/SpaceAroundEqualsInParameterDefault:
-  Enabled: False
-Layout/SpaceAroundOperators:
-  Enabled: False
-Layout/SpaceBeforeBlockBraces:
-  Enabled: False
-Layout/SpaceInsideArrayLiteralBrackets:
-  Enabled: False
-Layout/SpaceInsideBlockBraces:
-  Enabled: False
-Layout/SpaceInsideHashLiteralBraces:
   Enabled: False
 Lint/AmbiguousBlockAssociation:
   Enabled: False
@@ -117,16 +77,6 @@ RSpec/BeforeAfterAll:
 RSpec/ContextWording:
   Enabled: False
 RSpec/DescribedClass:
-  Enabled: False
-RSpec/EmptyLineAfterExample:
-  Enabled: False
-RSpec/EmptyLineAfterFinalLet:
-  Enabled: False
-RSpec/EmptyLineAfterHook:
-  Enabled: False
-RSpec/EmptyLineAfterSubject:
-  Enabled: False
-RSpec/EmptyLineAfterExampleGroup:
   Enabled: False
 RSpec/ExampleLength:
   Enabled: False
