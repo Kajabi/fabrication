@@ -9,7 +9,7 @@ test-ruby-3.0:
   script:
   - bundle
   - bundle exec appraisal install
-  - bundle exec appraisal rails-6.1 rake cucumber
+  - bundle exec rake cucumber
   - bundle exec appraisal rails-6.1 rspec
   - bundle exec appraisal rails-6.0 rspec
   - bundle exec appraisal mongoid-7.x rspec
