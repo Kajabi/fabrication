@@ -184,9 +184,5 @@ Style/StringLiterals:
   Enabled: False
 Style/StructInheritance:
   Enabled: False
-Style/SymbolArray:
-  Enabled: False
 Style/SymbolProc:
-  Enabled: False
-Style/WordArray:
   Enabled: False
