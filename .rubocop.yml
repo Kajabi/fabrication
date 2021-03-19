@@ -68,5 +68,3 @@ RSpec/VerifiedDoubles:
   Enabled: False
 Style/CaseEquality:
   Enabled: False
-Style/ClassCheck:
-  Enabled: False
