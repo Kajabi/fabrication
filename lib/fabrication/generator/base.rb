@@ -76,6 +76,10 @@ class Fabrication::Generator::Base
     self._klass = klass
   end
 
+  def respond_to_missing?(method_name, _include_private = false)
+    _attributes.key?(method_name)
+  end
+
   def method_missing(method_name, *args, &block)
     _attributes.fetch(method_name) { super }
   end

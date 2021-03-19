@@ -80,5 +80,3 @@ Style/FrozenStringLiteralComment:
   Enabled: False
 Style/Lambda:
   Enabled: False
-Style/MissingRespondToMissing:
-  Enabled: False

@@ -4,6 +4,10 @@ class Fabrication::Schematic::Evaluator < BasicObject
     instance_eval(&block)
   end
 
+  def respond_to_missing?(_method_name, _include_private = false)
+    true
+  end
+
   def method_missing(method_name, *args, &block)
     params = ::Fabrication::Support.extract_options!(args)
     value = args.first
