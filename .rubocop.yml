@@ -81,5 +81,3 @@ Style/MissingRespondToMissing:
   Enabled: False
 Style/ModuleFunction:
   Enabled: False
-Style/MultilineTernaryOperator:
-  Enabled: False
