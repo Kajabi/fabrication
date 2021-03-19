@@ -5,7 +5,7 @@ class Fabrication::Schematic::Definition
     Fabrication::Generator::Sequel,
     Fabrication::Generator::Mongoid,
     Fabrication::Generator::Base
-  ]
+  ].freeze
 
   attr_accessor :name, :options, :block
 

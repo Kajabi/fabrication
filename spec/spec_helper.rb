@@ -8,7 +8,7 @@ DEFINED_CLASSES = {
   data_mapper: defined?(DataMapper),
   mongoid: defined?(Mongoid),
   sequel: defined?(Sequel)
-}
+}.freeze
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
