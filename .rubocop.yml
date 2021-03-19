@@ -92,5 +92,3 @@ Style/RaiseArgs:
   Enabled: False
 Style/RescueStandardError:
   Enabled: False
-Style/SpecialGlobalVars:
-  Enabled: False
