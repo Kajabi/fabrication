@@ -87,5 +87,3 @@ Style/MutableConstant:
   Enabled: False
 Style/NegatedIfElseCondition:
   Enabled: False
-Style/PerlBackrefs:
-  Enabled: False
