@@ -8,8 +8,6 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.5
 
-Layout/FirstHashElementIndentation:
-  Enabled: False
 Layout/LineLength:
   Enabled: False
 Lint/AmbiguousBlockAssociation:
@@ -138,8 +136,6 @@ Style/ExpandPathArguments:
   Enabled: False
 Style/FrozenStringLiteralComment:
   Enabled: False
-Style/HashSyntax:
-  Enabled: False
 Style/IfUnlessModifier:
   Enabled: False
 Style/Lambda:
@@ -161,8 +157,6 @@ Style/NumericLiterals:
 Style/PercentLiteralDelimiters:
   Enabled: False
 Style/PerlBackrefs:
-  Enabled: False
-Style/PreferredHashMethods:
   Enabled: False
 Style/Proc:
   Enabled: False

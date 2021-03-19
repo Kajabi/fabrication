@@ -4,7 +4,7 @@ describe Fabrication::Schematic::Definition do
   let(:schematic) do
     Fabrication::Schematic::Definition.new('OpenStruct') do
       name "Orgasmo"
-      something(:param => 2) { "hi!" }
+      something(param: 2) { "hi!" }
       another_thing { 25 }
     end
   end
@@ -110,7 +110,7 @@ describe Fabrication::Schematic::Definition do
       it "stored 'something' correctly" do
         attribute = subject.attribute(:something)
         expect(attribute.name).to eq(:something)
-        expect(attribute.params).to eq({ :param => 2 })
+        expect(attribute.params).to eq({ param: 2 })
         expect(Proc).to be === attribute.value
         expect(attribute.value.call).to eq("hi!")
       end
@@ -129,7 +129,7 @@ describe Fabrication::Schematic::Definition do
         schematic.merge do
           name { "Willis" }
           something "Else!"
-          another_thing(:thats_what => 'she_said') { "Boo-ya!" }
+          another_thing(thats_what: 'she_said') { "Boo-ya!" }
         end
       end
 
@@ -153,7 +153,7 @@ describe Fabrication::Schematic::Definition do
       it "stored 'another_thing' correctly" do
         attribute = subject.attribute(:another_thing)
         expect(attribute.name).to eq(:another_thing)
-        expect(attribute.params).to eq({ :thats_what => 'she_said' })
+        expect(attribute.params).to eq({ thats_what: 'she_said' })
         expect(Proc).to be === attribute.value
         expect(attribute.value.call).to eq("Boo-ya!")
       end
@@ -219,7 +219,7 @@ describe Fabrication::Schematic::Definition do
   describe '#transient' do
     let(:definition) do
       Fabrication::Schematic::Definition.new('OpenStruct') do
-        transient :one, :two => 'with a default value', :three => 200
+        transient :one, two: 'with a default value', three: 200
       end
     end
 
