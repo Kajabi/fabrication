@@ -88,5 +88,3 @@ Style/PerlBackrefs:
   Enabled: False
 Style/Proc:
   Enabled: False
-Style/RaiseArgs:
-  Enabled: False
