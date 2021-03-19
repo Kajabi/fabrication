@@ -32,8 +32,6 @@ Lint/ParenthesesAsGroupedExpression:
   Enabled: False
 Lint/RedundantDirGlobSort:
   Enabled: False
-Lint/RedundantStringCoercion:
-  Enabled: False
 Lint/RescueException:
   Enabled: False
 Lint/ShadowingOuterLocalVariable:
@@ -173,8 +171,6 @@ Style/SafeNavigation:
 Style/SingleLineMethods:
   Enabled: False
 Style/SpecialGlobalVars:
-  Enabled: False
-Style/StringLiterals:
   Enabled: False
 Style/StructInheritance:
   Enabled: False

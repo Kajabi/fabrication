@@ -5,14 +5,14 @@ describe Fabrication::Config do
 
   after { Fabrication::Config.reset_defaults }
 
-  context "default configs" do
+  context 'default configs' do
     its(:fabricator_path) { should == ['test/fabricators', 'spec/fabricators'] }
     its(:path_prefix) { should == ['.'] }
     its(:sequence_start) { should == 0 }
   end
 
-  describe ".fabricator_path" do
-    context "with a single folder" do
+  describe '.fabricator_path' do
+    context 'with a single folder' do
       before do
         Fabrication.configure do |config|
           config.fabricator_path = 'lib'
@@ -22,7 +22,7 @@ describe Fabrication::Config do
       its(:fabricator_path) { should == ['lib'] }
     end
 
-    context "with multiple folders" do
+    context 'with multiple folders' do
       before do
         Fabrication.configure do |config|
           config.fabricator_path = %w(lib support)
@@ -33,8 +33,8 @@ describe Fabrication::Config do
     end
   end
 
-  describe ".path_prefix" do
-    context "with a single folder" do
+  describe '.path_prefix' do
+    context 'with a single folder' do
       before do
         Fabrication.configure do |config|
           config.path_prefix = '/path/to/app'
@@ -44,7 +44,7 @@ describe Fabrication::Config do
       its(:path_prefix) { should == ['/path/to/app'] }
     end
 
-    context "with multiple folders" do
+    context 'with multiple folders' do
       before do
         Fabrication.configure do |config|
           config.path_prefix = %w(/path/to/app /path/to/gem/fabricators)
@@ -55,7 +55,7 @@ describe Fabrication::Config do
     end
   end
 
-  describe ".register_generator" do
+  describe '.register_generator' do
     before do
       Fabrication.configure do |config|
         config.generators << ImmutableGenerator

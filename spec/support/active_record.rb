@@ -7,7 +7,7 @@ if defined?(ActiveRecord)
   ActiveRecord::Base.establish_connection(dbconfig)
   ActiveRecord::Migration.verbose = false
 
-  migrationBaseClass = ActiveRecord.respond_to?(:version) && ActiveRecord.version.to_s >= "5.1.0" ?
+  migrationBaseClass = ActiveRecord.respond_to?(:version) && ActiveRecord.version.to_s >= '5.1.0' ?
       ActiveRecord::Migration[5.1] : ActiveRecord::Migration
 
   class TestMigration < migrationBaseClass
