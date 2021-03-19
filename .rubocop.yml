@@ -8,6 +8,9 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.5
 
+Style/ModuleFunction:
+  Exclude:
+    - lib/fabrication/config.rb
 Style/MultilineBlockChain:
   Enabled: false
 
@@ -78,6 +81,4 @@ Style/FrozenStringLiteralComment:
 Style/Lambda:
   Enabled: False
 Style/MissingRespondToMissing:
-  Enabled: False
-Style/ModuleFunction:
   Enabled: False
