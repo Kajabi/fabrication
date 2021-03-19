@@ -78,5 +78,3 @@ Style/Encoding:
   Enabled: False
 Style/FrozenStringLiteralComment:
   Enabled: False
-Style/Lambda:
-  Enabled: False
