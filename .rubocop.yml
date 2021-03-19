@@ -94,5 +94,3 @@ Style/RescueStandardError:
   Enabled: False
 Style/SpecialGlobalVars:
   Enabled: False
-Style/StructInheritance:
-  Enabled: False

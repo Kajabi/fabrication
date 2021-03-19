@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class CustomInitializer < Struct.new(:field1, :field2); end
+CustomInitializer = Struct.new(:field1, :field2)
 
 class Widget < Object; end
 
