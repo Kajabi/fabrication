@@ -7,8 +7,8 @@ class Fabrication::Support
     def class_for(class_or_to_s)
       class_name = variable_name_to_class_name(class_or_to_s)
       constantize(class_name)
-    rescue NameError => original_error
-      raise Fabrication::UnfabricatableError.new(class_or_to_s, original_error)
+    rescue NameError => e
+      raise Fabrication::UnfabricatableError.new(class_or_to_s, e)
     end
 
     def constantize(camel_cased_word)
@@ -39,11 +39,12 @@ class Fabrication::Support
     end
 
     def variable_name_to_class_name(name)
-      name.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
+      name.to_s.gsub(%r{/(.?)}) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
     end
 
     def find_definitions
-      puts "DEPRECATION WARNING: Fabrication::Support.find_definitions has been replaced by Fabrication.manager.load_definitions and will be removed in 3.0.0."
+      puts 'DEPRECATION WARNING: Fabrication::Support.find_definitions has been replaced ' \
+        'by Fabrication.manager.load_definitions and will be removed in 3.0.0.'
       Fabrication.manager.load_definitions
     end
 
@@ -61,7 +62,7 @@ class Fabrication::Support
       string.gsub(/::/, '/')
             .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
             .gsub(/([a-z\d])([A-Z])/, '\1_\2')
-            .tr("-", "_")
+            .tr('-', '_')
             .downcase
     end
   end

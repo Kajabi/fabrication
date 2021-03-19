@@ -1,53 +1,54 @@
 require 'spec_helper'
 
-describe Fabrication::Generator::ActiveRecord do
-  describe ".supports?" do
-    subject { Fabrication::Generator::ActiveRecord }
+module ActiveRecord
+  # Defines a fakey ActiveRecord module for the blank-slate appraisal that
+  # doesn't also have ActiveRecord::Base such as those written by
+  # instrumentation platforms e.g. Honeycomb
+end
 
-    # Defines a fakey ActiveRecord module that doesn't also have
-    # ActiveRecord::Base such as those written by instrumentation
-    # platforms e.g. Honeycomb
-    module ActiveRecord; end
+describe Fabrication::Generator::ActiveRecord do
+  describe '.supports?' do
+    subject { Fabrication::Generator::ActiveRecord }
 
     let(:active_record_fake) { ActiveRecord }
 
-    it "returns false for active record objects without ar::base" do
+    it 'returns false for active record objects without ar::base' do
       expect(subject.supports?(active_record_fake)).to be false
     end
   end
 end
 
 describe Fabrication::Generator::ActiveRecord, depends_on: :active_record do
-  describe ".supports?" do
+  describe '.supports?' do
     subject { Fabrication::Generator::ActiveRecord }
 
-    it "returns true for active record objects" do
+    it 'returns true for active record objects' do
       expect(subject.supports?(ParentActiveRecordModel)).to be true
     end
 
-    it "returns false for non-active record objects" do
+    it 'returns false for non-active record objects' do
       expect(subject.supports?(ParentRubyObject)).to be false
     end
   end
 
-  describe "#persist" do
+  describe '#persist' do
     let(:instance) { double }
     let(:generator) { Fabrication::Generator::ActiveRecord.new(ParentActiveRecordModel) }
 
     before { generator.send(:_instance=, instance) }
 
-    it "saves" do
+    it 'saves' do
       expect(instance).to receive(:save!)
       generator.send(:persist)
     end
   end
 
-  describe "#create" do
+  describe '#create' do
     let(:attributes) do
       Fabrication::Schematic::Definition.new(ParentActiveRecordModel) do
         string_field 'Different Content'
         number_field { |attrs| attrs[:string_field].length }
-        child_active_record_models(count: 2) { |attrs, i| ChildActiveRecordModel.new(number_field: i) }
+        child_active_record_models(count: 2) { |_attrs, i| ChildActiveRecordModel.new(number_field: i) }
       end.attributes
     end
 

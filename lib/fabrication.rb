@@ -52,11 +52,13 @@ module Fabrication
   end
 
   def self.schematics
-    puts "DEPRECATION WARNING: Fabrication.schematics has been replaced by Fabrication.manager and will be removed in 3.0.0."
+    puts 'DEPRECATION WARNING: Fabrication.schematics has been replaced by '\
+      'Fabrication.manager and will be removed in 3.0.0.'
     manager
   end
 end
 
+# rubocop:disable Naming/MethodName
 def Fabricator(name, options = {}, &block)
   Fabrication.manager.register(name, options, &block)
 end
@@ -66,6 +68,7 @@ def Fabricate(name, overrides = {}, &block)
     Fabrication::Cucumber::Fabrications[name] = object if Fabrication::Config.register_with_steps?
   end
 end
+# rubocop:enable Naming/MethodName
 
 module FabricationMethods
   def fabrications

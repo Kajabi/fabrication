@@ -11,16 +11,19 @@ module Fabrication
 
       def from_table(table, extra = {})
         hashes = singular? ? [table.rows_hash] : table.hashes
-        hashes.map do |hash|
+        transformed_hashes = hashes.map do |hash|
           transformed_hash = Fabrication::Transform.apply_to(@model, parameterize_hash(hash))
           make(transformed_hash.merge(extra))
-        end.tap { |o| remember(o) }
+        end
+        remember(transformed_hashes)
+        transformed_hashes
       end
 
       def n(count, attrs = {})
         count.times.map { make(attrs) }.tap { |o| remember(o) }
       end
 
+      # rubocop:disable Naming/PredicateName
       def has_many(children)
         instance = Fabrications[@fabricator]
         children = dehumanize(children)
@@ -29,6 +32,7 @@ module Fabrication
           child.respond_to?(:save!) && child.save!
         end
       end
+      # rubocop:enable Naming/PredicateName
 
       def parent
         return unless @parent_name

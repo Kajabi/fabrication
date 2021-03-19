@@ -25,7 +25,9 @@ class Fabrication::Schematic::Definition
 
   def append_or_update_attribute(attribute_name, value, params = {}, &block)
     attribute = Fabrication::Schematic::Attribute.new(klass, attribute_name, value, params, &block)
-    if index = attributes.index { |a| a.name == attribute.name }
+    index = attributes.index { |a| a.name == attribute.name }
+
+    if index
       attribute.transient! if attributes[index].transient?
       attributes[index] = attribute
     else
@@ -33,14 +35,12 @@ class Fabrication::Schematic::Definition
     end
   end
 
-  attr_writer :attributes
+  attr_writer :attributes, :callbacks
 
   def attributes
     load_body
     @attributes ||= []
   end
-
-  attr_writer :callbacks
 
   def callbacks
     load_body
@@ -135,7 +135,7 @@ class Fabrication::Schematic::Definition
   def klass
     @klass ||= Fabrication::Support.class_for(
       options[:class_name] ||
-        (parent && parent.klass) ||
+        parent&.klass ||
         options[:from] ||
         name
     )

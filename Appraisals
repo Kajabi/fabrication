@@ -9,6 +9,7 @@ appraise 'kitchen-sink' do
 end
 
 appraise 'blank-slate' do
+  # Simulates a framework-less environment
 end
 
 appraise 'rails-6.1' do

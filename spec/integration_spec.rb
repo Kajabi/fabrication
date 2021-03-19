@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+class CustomInitializer < Struct.new(:field1, :field2); end
+
+class Widget < Object; end
+
 shared_examples 'something fabricatable' do
   subject { fabricated_object }
 
@@ -41,9 +45,9 @@ shared_examples 'something fabricatable' do
 
       its(:size) { should == 2 }
       its(:first) { should be_persisted }
-      its("first.number_field") { should == 10 }
+      its('first.number_field') { should == 10 }
       its(:last) { should be_persisted }
-      its("last.number_field") { should == 10 }
+      its('last.number_field') { should == 10 }
     end
   end
 
@@ -79,11 +83,11 @@ shared_examples 'something fabricatable' do
 
     it 'serializes the attributes' do
       should include({
-        :dynamic_field => nil,
-        :nil_field => nil,
-        :number_field => 5,
-        :string_field => 'content'
-      })
+                       dynamic_field: nil,
+                       nil_field: nil,
+                       number_field: 5,
+                       string_field: 'content'
+                     })
     end
   end
 
@@ -115,11 +119,11 @@ describe Fabrication do
     it_should_behave_like 'something fabricatable'
 
     context 'associations in attributes_for' do
-      let(:parent_model) { Fabricate(:parent_active_record_model) }
-
       subject do
         Fabricate.attributes_for(:child_active_record_model, parent_active_record_model: parent_model)
       end
+
+      let(:parent_model) { Fabricate(:parent_active_record_model) }
 
       it 'serializes the belongs_to as an id' do
         should include({ parent_active_record_model_id: parent_model.id })
@@ -142,13 +146,13 @@ describe Fabrication do
     it_should_behave_like 'something fabricatable'
 
     context 'associations in attributes_for' do
-      let(:parent_model) { Fabricate(:parent_data_mapper_model) }
-
       subject do
         Fabricate.attributes_for(
           :child_data_mapper_model, parent_data_mapper_model: parent_model
         )
       end
+
+      let(:parent_model) { Fabricate(:parent_data_mapper_model) }
 
       it 'serializes the belongs_to as an id' do
         should include({ parent_data_mapper_model_id: parent_model.id })
@@ -192,15 +196,14 @@ describe Fabrication do
   end
 
   context 'when the class requires a constructor' do
-    before(:all) do
-      class CustomInitializer < Struct.new(:field1, :field2); end
-      Fabricator(:custom_initializer)
-    end
-
     subject do
       Fabricate(:custom_initializer) do
         on_init { init_with('value1', 'value2') }
       end
+    end
+
+    before do
+      Fabricator(:custom_initializer) unless Fabrication.manager[:custom_initializer]
     end
 
     its(:field1) { should == 'value1' }
@@ -209,14 +212,14 @@ describe Fabrication do
 
   context 'with the generation parameter' do
     let(:parent_ruby_object) do
-      Fabricate(:parent_ruby_object, string_field: "Paul") do
+      Fabricate(:parent_ruby_object, string_field: 'Paul') do
         placeholder { |attrs| "#{attrs[:string_field]}#{attrs[:number_field]}" }
         number_field 50
       end
     end
 
     it 'evaluates the fields in order of declaration' do
-      expect(parent_ruby_object.string_field).to eq("Paul")
+      expect(parent_ruby_object.string_field).to eq('Paul')
     end
   end
 
@@ -272,16 +275,16 @@ describe Fabrication do
   end
 
   context 'with a mongoid document', depends_on: :mongoid do
-    it "sets dynamic fields" do
+    it 'sets dynamic fields' do
       expect(Fabricate(:parent_mongoid_document, mongoid_dynamic_field: 50).mongoid_dynamic_field).to eq 50
     end
 
-    it "sets lazy dynamic fields" do
-      expect(Fabricate(:parent_mongoid_document) { lazy_dynamic_field "foo" }.lazy_dynamic_field).to eq 'foo'
+    it 'sets lazy dynamic fields' do
+      expect(Fabricate(:parent_mongoid_document) { lazy_dynamic_field 'foo' }.lazy_dynamic_field).to eq 'foo'
     end
 
-    context "with disabled dynamic fields" do
-      it "raises NoMethodError for mongoid_dynamic_field=" do
+    context 'with disabled dynamic fields' do
+      it 'raises NoMethodError for mongoid_dynamic_field=' do
         if Mongoid.respond_to?(:allow_dynamic_fields=)
           Mongoid.allow_dynamic_fields = false
           expect do
@@ -296,10 +299,12 @@ describe Fabrication do
   context 'with multiple callbacks' do
     subject { Fabricate(:multiple_callbacks) }
 
-    before(:all) do
-      Fabricator(:multiple_callbacks, from: OpenStruct) do
-        before_validation { |o| o.callback1 = 'value1' }
-        before_validation { |o| o.callback2 = 'value2' }
+    before do
+      unless Fabrication.manager[:multiple_callbacks]
+        Fabricator(:multiple_callbacks, from: OpenStruct) do
+          before_validation { |o| o.callback1 = 'value1' }
+          before_validation { |o| o.callback2 = 'value2' }
+        end
       end
     end
 
@@ -310,9 +315,11 @@ describe Fabrication do
   context 'with multiple, inherited callbacks' do
     subject { Fabricate(:multiple_inherited_callbacks) }
 
-    before(:all) do
-      Fabricator(:multiple_inherited_callbacks, from: :multiple_callbacks) do
-        before_validation { |o| o.callback3 = o.callback1 + o.callback2 }
+    before do
+      unless Fabrication.manager[:multiple_inherited_callbacks]
+        Fabricator(:multiple_inherited_callbacks, from: :multiple_callbacks) do
+          before_validation { |o| o.callback3 = o.callback1 + o.callback2 }
+        end
       end
     end
 
@@ -320,18 +327,18 @@ describe Fabrication do
   end
 
   describe '.clear_definitions' do
-    before { Fabrication.clear_definitions }
-
     subject { Fabrication.manager }
 
-    it { should be_empty }
+    before { Fabrication.clear_definitions }
 
     after { Fabrication.manager.load_definitions }
+
+    it { should be_empty }
   end
 
   context 'when defining a fabricator twice' do
     it 'throws an error' do
-      expect { Fabricator(:parent_ruby_object) {} }.to raise_error(Fabrication::DuplicateFabricatorError)
+      expect { Fabricator(:parent_ruby_object) }.to raise_error(Fabrication::DuplicateFabricatorError)
     end
   end
 
@@ -351,9 +358,8 @@ describe Fabrication do
 
   context 'defining a fabricator' do
     context 'without a block' do
-      before(:all) do
-        class Widget; end
-        Fabricator(:widget)
+      before do
+        Fabricator(:widget) unless Fabrication.manager[:custom_initializer]
       end
 
       it 'works fine' do
@@ -362,15 +368,15 @@ describe Fabrication do
     end
   end
 
-  describe "Fabricate with a sequence" do
+  describe 'Fabricate with a sequence' do
     subject { Fabricate(:sequencer) }
 
     its(:simple_iterator) { should == 0 }
     its(:param_iterator)  { should == 10 }
-    its(:block_iterator)  { should == "block2" }
+    its(:block_iterator)  { should == 'block2' }
 
-    context "when namespaced" do
-      subject { Fabricate("Sequencer::Namespaced") }
+    context 'when namespaced' do
+      subject { Fabricate('Sequencer::Namespaced') }
 
       its(:iterator) { should == 0 }
     end

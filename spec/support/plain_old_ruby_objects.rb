@@ -23,6 +23,7 @@ class ParentRubyObject < Persistable
   attr_writer :child_ruby_objects
 
   def initialize
+    super
     self.id = 23
     self.before_save_value = 11
   end
@@ -63,7 +64,7 @@ end
 
 class Troublemaker
   def raise_exception=(value)
-    raise "Troublemaker exception" if value
+    raise 'Troublemaker exception' if value
   end
 end
 

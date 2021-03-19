@@ -16,9 +16,13 @@ class Fabrication::Schematic::Manager
     @schematics ||= {}
   end
 
-  def clear; schematics.clear end
+  def clear
+    schematics.clear
+  end
 
-  def empty?; schematics.empty? end
+  def empty?
+    schematics.empty?
+  end
 
   def freeze
     @initializing = false
@@ -55,7 +59,7 @@ class Fabrication::Schematic::Manager
         end
       end
     end
-  rescue Exception => e
+  rescue StandardError => e
     raise e
   ensure
     freeze
