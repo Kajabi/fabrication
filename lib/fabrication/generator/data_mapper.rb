@@ -1,15 +1,19 @@
-class Fabrication::Generator::DataMapper < Fabrication::Generator::Base
-  def self.supports?(klass)
-    defined?(DataMapper) && klass.ancestors.include?(DataMapper::Hook)
-  end
+module Fabrication
+  module Generator
+    class DataMapper < Fabrication::Generator::Base
+      def self.supports?(klass)
+        defined?(::DataMapper) && klass.ancestors.include?(::DataMapper::Hook)
+      end
 
-  def build_instance
-    self._instance = _klass.new(_attributes)
-  end
+      def build_instance
+        self._instance = _klass.new(_attributes)
+      end
 
-  protected
+      protected
 
-  def persist
-    _instance.save
+      def persist
+        _instance.save
+      end
+    end
   end
 end

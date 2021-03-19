@@ -111,7 +111,7 @@ describe Fabrication::Schematic::Definition do
         attribute = subject.attribute(:something)
         expect(attribute.name).to eq(:something)
         expect(attribute.params).to eq({ param: 2 })
-        expect(Proc).to be === attribute.value
+        expect(attribute.value).to be_a(Proc)
         expect(attribute.value.call).to eq('hi!')
       end
 
@@ -119,7 +119,7 @@ describe Fabrication::Schematic::Definition do
         attribute = subject.attribute(:another_thing)
         expect(attribute.name).to eq(:another_thing)
         expect(attribute.params).to eq({})
-        expect(Proc).to be === attribute.value
+        expect(attribute.value).to be_a(Proc)
         expect(attribute.value.call).to eq(25)
       end
     end
@@ -139,7 +139,7 @@ describe Fabrication::Schematic::Definition do
         attribute = subject.attribute(:name)
         expect(attribute.name).to eq(:name)
         expect(attribute.params).to eq({})
-        expect(Proc).to be === attribute.value
+        expect(attribute.value).to be_a(Proc)
         expect(attribute.value.call).to eq('Willis')
       end
 
@@ -154,14 +154,14 @@ describe Fabrication::Schematic::Definition do
         attribute = subject.attribute(:another_thing)
         expect(attribute.name).to eq(:another_thing)
         expect(attribute.params).to eq({ thats_what: 'she_said' })
-        expect(Proc).to be === attribute.value
+        expect(attribute.value).to be_a(Proc)
         expect(attribute.value.call).to eq('Boo-ya!')
       end
     end
   end
 
   describe '#on_init' do
-    let(:init_block) { lambda {} }
+    let(:init_block) { -> {} }
     let(:init_schematic) do
       block = init_block
       Fabrication::Schematic::Definition.new('OpenStruct') do
@@ -174,7 +174,7 @@ describe Fabrication::Schematic::Definition do
     end
 
     context 'with inheritance' do
-      let(:child_block) { lambda {} }
+      let(:child_block) { -> {} }
       let(:child_schematic) do
         block = child_block
         init_schematic.merge do
@@ -189,7 +189,7 @@ describe Fabrication::Schematic::Definition do
   end
 
   describe '#initialize_with' do
-    let(:init_block) { lambda {} }
+    let(:init_block) { -> {} }
     let(:init_schematic) do
       block = init_block
       Fabrication::Schematic::Definition.new('OpenStruct') do
@@ -202,7 +202,7 @@ describe Fabrication::Schematic::Definition do
     end
 
     context 'with inheritance' do
-      let(:child_block) { lambda {} }
+      let(:child_block) { -> {} }
       let(:child_schematic) do
         block = child_block
         init_schematic.merge do

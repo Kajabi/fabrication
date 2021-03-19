@@ -1,7 +1,7 @@
 ORDINALS = {
   'first' => 0,
   'second' => 1
-}
+}.freeze
 
 def dehumanize(string)
   string.gsub(/\W+/, '_').downcase

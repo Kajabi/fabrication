@@ -8,6 +8,16 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.5
 
+Style/Documentation:
+  Enabled: False
+Style/FrozenStringLiteralComment:
+  Enabled: False
+Style/ModuleFunction:
+  Exclude:
+    - lib/fabrication/config.rb
+Style/MultilineBlockChain:
+  Enabled: false
+
 Metrics/AbcSize:
   Enabled: False
 Metrics/BlockLength:
@@ -55,46 +65,4 @@ RSpec/NotToNot:
 RSpec/StubbedMock:
   Enabled: False
 RSpec/VerifiedDoubles:
-  Enabled: False
-Style/CaseEquality:
-  Enabled: False
-Style/ClassCheck:
-  Enabled: False
-Style/ClassAndModuleChildren:
-  Enabled: False
-Style/ClassVars:
-  Enabled: False
-Style/ConditionalAssignment:
-  Enabled: False
-Style/Documentation:
-  Enabled: False
-Style/Encoding:
-  Enabled: False
-Style/FrozenStringLiteralComment:
-  Enabled: False
-Style/Lambda:
-  Enabled: False
-Style/MissingRespondToMissing:
-  Enabled: False
-Style/ModuleFunction:
-  Enabled: False
-Style/MultilineTernaryOperator:
-  Enabled: False
-Style/MutableConstant:
-  Enabled: False
-Style/NegatedIfElseCondition:
-  Enabled: False
-Style/PerlBackrefs:
-  Enabled: False
-Style/Proc:
-  Enabled: False
-Style/RaiseArgs:
-  Enabled: False
-Style/RedundantBegin:
-  Enabled: False
-Style/RescueStandardError:
-  Enabled: False
-Style/SpecialGlobalVars:
-  Enabled: False
-Style/StructInheritance:
   Enabled: False
