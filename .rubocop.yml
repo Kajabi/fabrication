@@ -14,11 +14,7 @@ Lint/EmptyClass:
   Enabled: False
 Lint/MissingSuper:
   Enabled: False
-Lint/NonDeterministicRequireOrder:
-  Enabled: False
 Lint/ParenthesesAsGroupedExpression:
-  Enabled: False
-Lint/RedundantDirGlobSort:
   Enabled: False
 Lint/RescueException:
   Enabled: False
@@ -103,8 +99,6 @@ Style/Documentation:
 Style/EmptyLiteral:
   Enabled: False
 Style/Encoding:
-  Enabled: False
-Style/ExpandPathArguments:
   Enabled: False
 Style/FrozenStringLiteralComment:
   Enabled: False
