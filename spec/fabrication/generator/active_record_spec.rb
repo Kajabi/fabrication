@@ -1,13 +1,14 @@
 require 'spec_helper'
 
+module ActiveRecord
+  # Defines a fakey ActiveRecord module for the blank-slate appraisal that
+  # doesn't also have ActiveRecord::Base such as those written by
+  # instrumentation platforms e.g. Honeycomb
+end
+
 describe Fabrication::Generator::ActiveRecord do
   describe '.supports?' do
     subject { Fabrication::Generator::ActiveRecord }
-
-    # Defines a fakey ActiveRecord module that doesn't also have
-    # ActiveRecord::Base such as those written by instrumentation
-    # platforms e.g. Honeycomb
-    module ActiveRecord; end
 
     let(:active_record_fake) { ActiveRecord }
 
@@ -47,7 +48,7 @@ describe Fabrication::Generator::ActiveRecord, depends_on: :active_record do
       Fabrication::Schematic::Definition.new(ParentActiveRecordModel) do
         string_field 'Different Content'
         number_field { |attrs| attrs[:string_field].length }
-        child_active_record_models(count: 2) { |attrs, i| ChildActiveRecordModel.new(number_field: i) }
+        child_active_record_models(count: 2) { |_attrs, i| ChildActiveRecordModel.new(number_field: i) }
       end.attributes
     end
 

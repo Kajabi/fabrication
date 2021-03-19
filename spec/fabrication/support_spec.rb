@@ -1,5 +1,11 @@
 require 'spec_helper'
 
+module Family
+  def self.const_missing(_name)
+    raise NameError, 'original message'
+  end
+end
+
 describe Fabrication::Support do
   describe '.class_for' do
     context 'with a class that exists' do
@@ -26,20 +32,12 @@ describe Fabrication::Support do
         expect { Fabrication::Support.class_for(:your_mom) }
           .to raise_error(Fabrication::UnfabricatableError)
       end
+    end
 
-      context 'and custom const_missing is defined' do
-        before do
-          module Family
-            def self.const_missing(_name)
-              raise NameError, 'original message'
-            end
-          end
-        end
-
-        it 'raises an exception with the message from the original exception' do
-          expect { Fabrication::Support.class_for('Family::Mom') }
-            .to raise_error(Fabrication::UnfabricatableError, /original message/)
-        end
+    context 'and custom const_missing is defined' do
+      it 'raises an exception with the message from the original exception' do
+        expect { Fabrication::Support.class_for('Family::Mom') }
+          .to raise_error(Fabrication::UnfabricatableError, /original message/)
       end
     end
   end
@@ -55,6 +53,7 @@ describe Fabrication::Support do
       it { should == HashWithIndifferentAccess }
     end
 
+    # rubocop:disable Lint/ConstantDefinitionInBlock
     context 'without HashWithIndifferentAccess defined' do
       before do
         TempHashWithIndifferentAccess = HashWithIndifferentAccess
@@ -69,5 +68,6 @@ describe Fabrication::Support do
 
       it { should == Hash }
     end
+    # rubocop:enable Lint/ConstantDefinitionInBlock
   end
 end

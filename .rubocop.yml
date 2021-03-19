@@ -10,13 +10,7 @@ AllCops:
 
 Layout/LineLength:
   Enabled: False
-Lint/AmbiguousBlockAssociation:
-  Enabled: False
 Lint/AssignmentInCondition:
-  Enabled: False
-Lint/ConstantDefinitionInBlock:
-  Enabled: False
-Lint/EmptyBlock:
   Enabled: False
 Lint/EmptyClass:
   Enabled: False
@@ -33,8 +27,6 @@ Lint/RedundantDirGlobSort:
 Lint/RescueException:
   Enabled: False
 Lint/ShadowingOuterLocalVariable:
-  Enabled: False
-Lint/UnusedBlockArgument:
   Enabled: False
 Lint/UselessAccessModifier:
   Enabled: False
@@ -102,8 +94,6 @@ RSpec/StubbedMock:
   Enabled: False
 RSpec/VerifiedDoubles:
   Enabled: False
-Style/BlockDelimiters:
-  Enabled: False
 Style/CaseEquality:
   Enabled: False
 Style/ClassCheck:
@@ -131,8 +121,6 @@ Style/Lambda:
 Style/MissingRespondToMissing:
   Enabled: False
 Style/ModuleFunction:
-  Enabled: False
-Style/MultilineBlockChain:
   Enabled: False
 Style/MultilineTernaryOperator:
   Enabled: False

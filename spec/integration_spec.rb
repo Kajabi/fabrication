@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+class CustomInitializer < Struct.new(:field1, :field2); end
+
+class Widget; end
+
 shared_examples 'something fabricatable' do
   subject { fabricated_object }
 
@@ -193,7 +197,6 @@ describe Fabrication do
 
   context 'when the class requires a constructor' do
     before(:all) do
-      class CustomInitializer < Struct.new(:field1, :field2); end
       Fabricator(:custom_initializer)
     end
 
@@ -331,7 +334,7 @@ describe Fabrication do
 
   context 'when defining a fabricator twice' do
     it 'throws an error' do
-      expect { Fabricator(:parent_ruby_object) {} }.to raise_error(Fabrication::DuplicateFabricatorError)
+      expect { Fabricator(:parent_ruby_object) }.to raise_error(Fabrication::DuplicateFabricatorError)
     end
   end
 
@@ -352,7 +355,6 @@ describe Fabrication do
   context 'defining a fabricator' do
     context 'without a block' do
       before(:all) do
-        class Widget; end
         Fabricator(:widget)
       end
 
