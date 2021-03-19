@@ -10,7 +10,7 @@ end
 
 desc 'All cucumber features with kitchen sink appraisal'
 task :cucumber do
-  system('appraisal kitchen-sink cucumber -f progress')
+  system('appraisal kitchen-sink cucumber -f progress --publish-quiet')
 end
 
 default_task = !ENV['APPRAISAL_INITIALIZED'] ? %i(cucumber appraisal) : :spec
