@@ -128,8 +128,6 @@ Style/RedundantBegin:
   Enabled: False
 Style/RescueStandardError:
   Enabled: False
-Style/SafeNavigation:
-  Enabled: False
 Style/SpecialGlobalVars:
   Enabled: False
 Style/StructInheritance:
