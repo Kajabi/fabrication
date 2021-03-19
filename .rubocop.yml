@@ -8,6 +8,8 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.5
 
+Style/FrozenStringLiteralComment:
+  Enabled: False
 Style/ModuleFunction:
   Exclude:
     - lib/fabrication/config.rb
@@ -73,8 +75,4 @@ Style/ClassVars:
 Style/ConditionalAssignment:
   Enabled: False
 Style/Documentation:
-  Enabled: False
-Style/Encoding:
-  Enabled: False
-Style/FrozenStringLiteralComment:
   Enabled: False
