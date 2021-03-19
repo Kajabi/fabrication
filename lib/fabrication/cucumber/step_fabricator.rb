@@ -23,6 +23,7 @@ module Fabrication
         count.times.map { make(attrs) }.tap { |o| remember(o) }
       end
 
+      # rubocop:disable Naming/PredicateName
       def has_many(children)
         instance = Fabrications[@fabricator]
         children = dehumanize(children)
@@ -31,6 +32,7 @@ module Fabrication
           child.respond_to?(:save!) && child.save!
         end
       end
+      # rubocop:enable Naming/PredicateName
 
       def parent
         return unless @parent_name

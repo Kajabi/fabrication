@@ -20,14 +20,6 @@ Metrics/MethodLength:
   Enabled: False
 Metrics/PerceivedComplexity:
   Enabled: False
-Naming/MemoizedInstanceVariableName:
-  Enabled: False
-Naming/PredicateName:
-  Enabled: False
-Naming/RescuedExceptionsVariableName:
-  Enabled: False
-Naming/VariableName:
-  Enabled: False
 RSpec/Be:
   Enabled: False
 RSpec/BeforeAfterAll:
