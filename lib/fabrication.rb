@@ -57,6 +57,7 @@ module Fabrication
   end
 end
 
+# rubocop:disable Naming/MethodName
 def Fabricator(name, options = {}, &block)
   Fabrication.manager.register(name, options, &block)
 end
@@ -66,6 +67,7 @@ def Fabricate(name, overrides = {}, &block)
     Fabrication::Cucumber::Fabrications[name] = object if Fabrication::Config.register_with_steps?
   end
 end
+# rubocop:enable Naming/MethodName
 
 module FabricationMethods
   def fabrications

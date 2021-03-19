@@ -38,8 +38,6 @@ Lint/ShadowingOuterLocalVariable:
   Enabled: False
 Lint/UnusedBlockArgument:
   Enabled: False
-Lint/UnusedMethodArgument:
-  Enabled: False
 Lint/UselessAccessModifier:
   Enabled: False
 Lint/Void:
@@ -57,8 +55,6 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Enabled: False
 Naming/MemoizedInstanceVariableName:
-  Enabled: False
-Naming/MethodName:
   Enabled: False
 Naming/PredicateName:
   Enabled: False
@@ -107,10 +103,6 @@ RSpec/NotToNot:
 RSpec/StubbedMock:
   Enabled: False
 RSpec/VerifiedDoubles:
-  Enabled: False
-Style/AccessorGrouping:
-  Enabled: False
-Style/ArgumentsForwarding:
   Enabled: False
 Style/BlockDelimiters:
   Enabled: False
@@ -167,8 +159,6 @@ Style/RegexpLiteral:
 Style/RescueStandardError:
   Enabled: False
 Style/SafeNavigation:
-  Enabled: False
-Style/SingleLineMethods:
   Enabled: False
 Style/SpecialGlobalVars:
   Enabled: False
