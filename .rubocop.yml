@@ -66,5 +66,3 @@ RSpec/StubbedMock:
   Enabled: False
 RSpec/VerifiedDoubles:
   Enabled: False
-Style/CaseEquality:
-  Enabled: False

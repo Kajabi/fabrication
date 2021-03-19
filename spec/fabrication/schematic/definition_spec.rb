@@ -111,7 +111,7 @@ describe Fabrication::Schematic::Definition do
         attribute = subject.attribute(:something)
         expect(attribute.name).to eq(:something)
         expect(attribute.params).to eq({ param: 2 })
-        expect(Proc).to be === attribute.value
+        expect(attribute.value).to be_a(Proc)
         expect(attribute.value.call).to eq('hi!')
       end
 
@@ -119,7 +119,7 @@ describe Fabrication::Schematic::Definition do
         attribute = subject.attribute(:another_thing)
         expect(attribute.name).to eq(:another_thing)
         expect(attribute.params).to eq({})
-        expect(Proc).to be === attribute.value
+        expect(attribute.value).to be_a(Proc)
         expect(attribute.value.call).to eq(25)
       end
     end
@@ -139,7 +139,7 @@ describe Fabrication::Schematic::Definition do
         attribute = subject.attribute(:name)
         expect(attribute.name).to eq(:name)
         expect(attribute.params).to eq({})
-        expect(Proc).to be === attribute.value
+        expect(attribute.value).to be_a(Proc)
         expect(attribute.value.call).to eq('Willis')
       end
 
@@ -154,7 +154,7 @@ describe Fabrication::Schematic::Definition do
         attribute = subject.attribute(:another_thing)
         expect(attribute.name).to eq(:another_thing)
         expect(attribute.params).to eq({ thats_what: 'she_said' })
-        expect(Proc).to be === attribute.value
+        expect(attribute.value).to be_a(Proc)
         expect(attribute.value.call).to eq('Boo-ya!')
       end
     end
