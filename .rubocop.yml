@@ -12,8 +12,6 @@ Lint/AssignmentInCondition:
   Enabled: False
 Lint/EmptyClass:
   Enabled: False
-Lint/IneffectiveAccessModifier:
-  Enabled: False
 Lint/MissingSuper:
   Enabled: False
 Lint/NonDeterministicRequireOrder:
@@ -25,8 +23,6 @@ Lint/RedundantDirGlobSort:
 Lint/RescueException:
   Enabled: False
 Lint/ShadowingOuterLocalVariable:
-  Enabled: False
-Lint/UselessAccessModifier:
   Enabled: False
 Lint/Void:
   Enabled: False
@@ -111,8 +107,6 @@ Style/Encoding:
 Style/ExpandPathArguments:
   Enabled: False
 Style/FrozenStringLiteralComment:
-  Enabled: False
-Style/IfUnlessModifier:
   Enabled: False
 Style/Lambda:
   Enabled: False
