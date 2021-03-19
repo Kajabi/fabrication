@@ -90,8 +90,6 @@ Style/Proc:
   Enabled: False
 Style/RaiseArgs:
   Enabled: False
-Style/RedundantBegin:
-  Enabled: False
 Style/RescueStandardError:
   Enabled: False
 Style/SpecialGlobalVars:
