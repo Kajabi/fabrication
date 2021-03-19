@@ -25,7 +25,7 @@ describe Fabrication::Config do
     context 'with multiple folders' do
       before do
         Fabrication.configure do |config|
-          config.fabricator_path = %w(lib support)
+          config.fabricator_path = %w[lib support]
         end
       end
 
@@ -47,7 +47,7 @@ describe Fabrication::Config do
     context 'with multiple folders' do
       before do
         Fabrication.configure do |config|
-          config.path_prefix = %w(/path/to/app /path/to/gem/fabricators)
+          config.path_prefix = %w[/path/to/app /path/to/gem/fabricators]
         end
       end
 

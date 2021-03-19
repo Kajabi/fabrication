@@ -68,8 +68,6 @@ Style/ConditionalAssignment:
   Enabled: False
 Style/Documentation:
   Enabled: False
-Style/EmptyLiteral:
-  Enabled: False
 Style/Encoding:
   Enabled: False
 Style/FrozenStringLiteralComment:
@@ -85,10 +83,6 @@ Style/MultilineTernaryOperator:
 Style/MutableConstant:
   Enabled: False
 Style/NegatedIfElseCondition:
-  Enabled: False
-Style/NumericLiterals:
-  Enabled: False
-Style/PercentLiteralDelimiters:
   Enabled: False
 Style/PerlBackrefs:
   Enabled: False
