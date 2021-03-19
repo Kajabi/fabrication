@@ -2,7 +2,7 @@ require 'spec_helper'
 
 class CustomInitializer < Struct.new(:field1, :field2); end
 
-class Widget; end
+class Widget < Object; end
 
 shared_examples 'something fabricatable' do
   subject { fabricated_object }

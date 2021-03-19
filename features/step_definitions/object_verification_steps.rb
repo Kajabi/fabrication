@@ -40,9 +40,11 @@ Then(/^they should reference that ([^"]*)$/) do |parent_name|
   parent_class = get_class(parent_name)
   parent_class_name = parent_class.to_s.underscore
 
+  # rubocop:disable Lint/Void
   @they.each do |object|
     object.send(parent_class_name).should == parent
   end
+  # rubocop:enable Lint/Void
 end
 
 Then(/^the ([^"]*) should have "([^"]*)" for a "([^"]*)"$/) do |ordindal, value, field|
