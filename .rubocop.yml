@@ -22,8 +22,6 @@ Metrics/PerceivedComplexity:
   Enabled: False
 RSpec/Be:
   Enabled: False
-RSpec/BeforeAfterAll:
-  Enabled: False
 RSpec/ContextWording:
   Enabled: False
 RSpec/DescribedClass:
@@ -34,15 +32,11 @@ RSpec/ExampleWording:
   Enabled: False
 RSpec/HookArgument:
   Enabled: False
-RSpec/HooksBeforeExamples:
-  Enabled: False
 RSpec/ImplicitExpect:
   Enabled: False
 RSpec/ImplicitSubject:
   Enabled: False
 RSpec/ItBehavesLike:
-  Enabled: False
-RSpec/LeadingSubject:
   Enabled: False
 RSpec/LeakyConstantDeclaration:
   Enabled: False

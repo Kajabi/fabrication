@@ -119,11 +119,11 @@ describe Fabrication do
     it_should_behave_like 'something fabricatable'
 
     context 'associations in attributes_for' do
-      let(:parent_model) { Fabricate(:parent_active_record_model) }
-
       subject do
         Fabricate.attributes_for(:child_active_record_model, parent_active_record_model: parent_model)
       end
+
+      let(:parent_model) { Fabricate(:parent_active_record_model) }
 
       it 'serializes the belongs_to as an id' do
         should include({ parent_active_record_model_id: parent_model.id })
@@ -146,13 +146,13 @@ describe Fabrication do
     it_should_behave_like 'something fabricatable'
 
     context 'associations in attributes_for' do
-      let(:parent_model) { Fabricate(:parent_data_mapper_model) }
-
       subject do
         Fabricate.attributes_for(
           :child_data_mapper_model, parent_data_mapper_model: parent_model
         )
       end
+
+      let(:parent_model) { Fabricate(:parent_data_mapper_model) }
 
       it 'serializes the belongs_to as an id' do
         should include({ parent_data_mapper_model_id: parent_model.id })
@@ -196,14 +196,14 @@ describe Fabrication do
   end
 
   context 'when the class requires a constructor' do
-    before(:all) do
-      Fabricator(:custom_initializer)
-    end
-
     subject do
       Fabricate(:custom_initializer) do
         on_init { init_with('value1', 'value2') }
       end
+    end
+
+    before do
+      Fabricator(:custom_initializer) unless Fabrication.manager[:custom_initializer]
     end
 
     its(:field1) { should == 'value1' }
@@ -299,10 +299,12 @@ describe Fabrication do
   context 'with multiple callbacks' do
     subject { Fabricate(:multiple_callbacks) }
 
-    before(:all) do
-      Fabricator(:multiple_callbacks, from: OpenStruct) do
-        before_validation { |o| o.callback1 = 'value1' }
-        before_validation { |o| o.callback2 = 'value2' }
+    before do
+      unless Fabrication.manager[:multiple_callbacks]
+        Fabricator(:multiple_callbacks, from: OpenStruct) do
+          before_validation { |o| o.callback1 = 'value1' }
+          before_validation { |o| o.callback2 = 'value2' }
+        end
       end
     end
 
@@ -313,9 +315,11 @@ describe Fabrication do
   context 'with multiple, inherited callbacks' do
     subject { Fabricate(:multiple_inherited_callbacks) }
 
-    before(:all) do
-      Fabricator(:multiple_inherited_callbacks, from: :multiple_callbacks) do
-        before_validation { |o| o.callback3 = o.callback1 + o.callback2 }
+    before do
+      unless Fabrication.manager[:multiple_inherited_callbacks]
+        Fabricator(:multiple_inherited_callbacks, from: :multiple_callbacks) do
+          before_validation { |o| o.callback3 = o.callback1 + o.callback2 }
+        end
       end
     end
 
@@ -323,13 +327,13 @@ describe Fabrication do
   end
 
   describe '.clear_definitions' do
-    before { Fabrication.clear_definitions }
-
     subject { Fabrication.manager }
 
-    it { should be_empty }
+    before { Fabrication.clear_definitions }
 
     after { Fabrication.manager.load_definitions }
+
+    it { should be_empty }
   end
 
   context 'when defining a fabricator twice' do
@@ -354,8 +358,8 @@ describe Fabrication do
 
   context 'defining a fabricator' do
     context 'without a block' do
-      before(:all) do
-        Fabricator(:widget)
+      before do
+        Fabricator(:widget) unless Fabrication.manager[:custom_initializer]
       end
 
       it 'works fine' do
