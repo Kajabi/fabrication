@@ -70,5 +70,3 @@ Style/CaseEquality:
   Enabled: False
 Style/ClassCheck:
   Enabled: False
-Style/ClassAndModuleChildren:
-  Enabled: False
