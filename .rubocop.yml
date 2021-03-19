@@ -8,8 +8,6 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.5
 
-Layout/LineLength:
-  Enabled: False
 Lint/AssignmentInCondition:
   Enabled: False
 Lint/EmptyClass:
