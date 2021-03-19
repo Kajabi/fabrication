@@ -90,5 +90,3 @@ Style/Proc:
   Enabled: False
 Style/RaiseArgs:
   Enabled: False
-Style/RescueStandardError:
-  Enabled: False
