@@ -1,14 +1,12 @@
 require 'spec_helper'
 
 describe Fabrication::Config do
-  subject { described_class }
-
   after { described_class.reset_defaults }
 
-  context 'when default configs' do
-    its(:fabricator_path) { should == ['test/fabricators', 'spec/fabricators'] }
-    its(:path_prefix) { should == ['.'] }
-    its(:sequence_start) { should == 0 }
+  it 'provides reasonable defaults' do
+    expect(described_class.fabricator_path).to eq(['test/fabricators', 'spec/fabricators'])
+    expect(described_class.path_prefix).to eq(['.'])
+    expect(described_class.sequence_start).to eq(0)
   end
 
   describe '.fabricator_path' do
@@ -19,7 +17,9 @@ describe Fabrication::Config do
         end
       end
 
-      its(:fabricator_path) { should == ['lib'] }
+      it 'stores the fabricator_path' do
+        expect(described_class.fabricator_path).to eq(['lib'])
+      end
     end
 
     context 'with multiple folders' do
@@ -29,7 +29,9 @@ describe Fabrication::Config do
         end
       end
 
-      its(:fabricator_path) { should == %w[lib support] }
+      it 'stores the fabricator_path' do
+        expect(described_class.fabricator_path).to eq(%w[lib support])
+      end
     end
   end
 
@@ -41,7 +43,9 @@ describe Fabrication::Config do
         end
       end
 
-      its(:path_prefix) { should == ['/path/to/app'] }
+      it 'stores the path prefix' do
+        expect(described_class.path_prefix).to eq(['/path/to/app'])
+      end
     end
 
     context 'with multiple folders' do
@@ -51,7 +55,9 @@ describe Fabrication::Config do
         end
       end
 
-      its(:path_prefix) { should == ['/path/to/app', '/path/to/gem/fabricators'] }
+      it 'stores the path prefix' do
+        expect(described_class.path_prefix).to eq(['/path/to/app', '/path/to/gem/fabricators'])
+      end
     end
   end
 
@@ -62,6 +68,8 @@ describe Fabrication::Config do
       end
     end
 
-    its(:generators) { should == [ImmutableGenerator] }
+    it 'stores the generator' do
+      expect(described_class.generators).to eq([ImmutableGenerator])
+    end
   end
 end

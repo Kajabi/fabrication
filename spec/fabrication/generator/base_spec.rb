@@ -130,8 +130,6 @@ describe Fabrication::Generator::Base do
     end
 
     context 'with all the callbacks' do
-      subject { schematic.build }
-
       let(:schematic) do
         Fabrication::Schematic::Definition.new('ParentRubyObject') do
           string_field ''
@@ -141,7 +139,9 @@ describe Fabrication::Generator::Base do
         end
       end
 
-      its(:string_field) { should == '1' }
+      it 'only runs the after_build callback' do
+        expect(schematic.build.string_field).to eq('1')
+      end
     end
 
     context 'with custom generators' do
@@ -164,8 +164,6 @@ describe Fabrication::Generator::Base do
 
   describe '#create' do
     context 'with all the callbacks' do
-      subject { schematic.fabricate }
-
       let(:schematic) do
         Fabrication::Schematic::Definition.new('ParentRubyObject') do
           string_field ''
@@ -179,7 +177,9 @@ describe Fabrication::Generator::Base do
         end
       end
 
-      its(:string_field) { should == '1234567' }
+      it 'runs all the callbacks' do
+        expect(schematic.fabricate.string_field).to eq('1234567')
+      end
     end
   end
 

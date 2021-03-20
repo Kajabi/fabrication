@@ -5,21 +5,19 @@ CustomInitializer = Struct.new(:field1, :field2)
 class Widget < Object; end
 
 shared_examples 'something fabricatable' do
-  subject { fabricated_object }
-
   let(:fabricated_object) { Fabricate(fabricator_name, placeholder: 'dynamic content') }
 
-  context 'with defaults from fabricator' do
-    its(:dynamic_field) { should == 'dynamic content' }
-    its(:nil_field) { should be_nil }
-    its(:number_field) { should == 5 }
-    its(:string_field) { should == 'content' }
-    its(:false_field) { should == false }
+  it 'merges provided params with defaults from the defined fabicator' do
+    expect(fabricated_object.dynamic_field).to eq('dynamic content')
+    expect(fabricated_object.nil_field).to be_nil
+    expect(fabricated_object.number_field).to eq(5)
+    expect(fabricated_object.string_field).to eq('content')
+    expect(fabricated_object.false_field).to eq(false)
   end
 
-  context 'when model callbacks are fired' do
-    its(:before_validation_value) { should == 1 }
-    its(:before_save_value) { should == 11 }
+  it 'fires model callbacks' do
+    expect(fabricated_object.before_validation_value).to eq(1)
+    expect(fabricated_object.before_save_value).to eq(11)
   end
 
   context 'when overriding at fabricate time' do
@@ -35,33 +33,44 @@ shared_examples 'something fabricatable' do
       end
     end
 
-    its(:dynamic_field) { should == 'new dynamic content' }
-    its(:nil_field) { should be_nil }
-    its(:number_field) { should == 10 }
-    its(:string_field) { should == 'new content' }
+    it 'uses both an attributes hash and block overrides' do
+      expect(fabricated_object.dynamic_field).to eq('new dynamic content')
+      expect(fabricated_object.nil_field).to be_nil
+      expect(fabricated_object.number_field).to eq(10)
+      expect(fabricated_object.string_field).to eq('new content')
+    end
 
     context 'with child collections' do
-      subject { fabricated_object.send(collection_field) }
+      let(:child_collection) { fabricated_object.send(collection_field) }
 
-      its(:size) { should == 2 }
-      its(:first) { should be_persisted }
-      its('first.number_field') { should == 10 }
-      its(:last) { should be_persisted }
-      its('last.number_field') { should == 10 }
+      it 'creates the children' do
+        expect(child_collection.size).to eq(2)
+        expect(child_collection.first).to be_persisted
+        expect(child_collection.first.number_field).to eq(10)
+        expect(child_collection.last).to be_persisted
+        expect(child_collection.last.number_field).to eq(10)
+      end
     end
   end
 
   context 'with state of the object' do
     it 'generates a fresh object every time' do
-      expect(Fabricate(fabricator_name)).not_to eq(subject)
+      expect(Fabricate(fabricator_name)).not_to eq(fabricated_object)
     end
 
-    it { should be_persisted }
+    it 'saves the object' do
+      expect(fabricated_object).to be_persisted
+    end
   end
 
   context 'with transient attributes' do
-    it { should_not respond_to(:placeholder) }
-    its(:extra_fields) { should == { transient_value: 'dynamic content' } }
+    it 'does not apply the transients to the object' do
+      expect(fabricated_object).not_to respond_to(:placeholder)
+    end
+
+    it 'exposes the transient value to other processing' do
+      expect(fabricated_object.extra_fields).to eq({ transient_value: 'dynamic content' })
+    end
   end
 
   describe '#build' do
@@ -193,7 +202,7 @@ describe Fabrication do
   end
 
   context 'when the class requires a constructor' do
-    subject do
+    let(:fabricated_object) do
       Fabricate(:custom_initializer) do
         on_init { init_with('value1', 'value2') }
       end
@@ -203,8 +212,10 @@ describe Fabrication do
       Fabricator(:custom_initializer) unless described_class.manager[:custom_initializer]
     end
 
-    its(:field1) { should == 'value1' }
-    its(:field2) { should == 'value2' }
+    it 'uses the custom initializer' do
+      expect(fabricated_object.field1).to eq('value1')
+      expect(fabricated_object.field2).to eq('value2')
+    end
   end
 
   context 'with the generation parameter' do
@@ -221,9 +232,11 @@ describe Fabrication do
   end
 
   context 'with a field named the same as an Object method' do
-    subject { Fabricate(:predefined_namespaced_class, display: 'working') }
+    let(:fabricated_object) { Fabricate(:predefined_namespaced_class, display: 'working') }
 
-    its(:display) { should == 'working' }
+    it 'works with field names that are also on Object' do
+      expect(fabricated_object.display).to eq('working')
+    end
   end
 
   context 'with multiple instances' do
@@ -244,7 +257,7 @@ describe Fabrication do
   end
 
   context 'with a specified class name' do
-    subject { Fabricate(:custom_parent_ruby_object) }
+    let(:fabricated_object) { Fabricate(:custom_parent_ruby_object) }
 
     before do
       Fabricator(:custom_parent_ruby_object, class_name: :parent_ruby_object) do
@@ -252,22 +265,26 @@ describe Fabrication do
       end
     end
 
-    its(:string_field) { should == 'different' }
+    it 'uses the specified class name' do
+      expect(fabricated_object).to be_a(ParentRubyObject)
+      expect(fabricated_object.string_field).to eq('different')
+    end
   end
 
   context 'with for namespaced classes' do
-    context 'when the namespaced class' do
-      subject { Fabricate('namespaced_classes/ruby_object', name: 'working') }
-
-      its(:name) { should eq('working') }
-      it { should be_a(NamespacedClasses::RubyObject) }
+    it 'correctly identifies the namespace' do
+      fabricated_object = Fabricate('namespaced_classes/ruby_object', name: 'working')
+      expect(fabricated_object).to be_a(NamespacedClasses::RubyObject)
+      expect(fabricated_object.name).to eq('working')
     end
 
-    context 'when descendant from namespaced class' do
-      subject { Fabricate(:predefined_namespaced_class) }
+    context 'with a descendant from namespaced class' do
+      let(:fabricated_object) { Fabricate(:predefined_namespaced_class) }
 
-      its(:name) { should eq('aaa') }
-      it { should be_a(NamespacedClasses::RubyObject) }
+      it 'uses the predefined namespace' do
+        expect(fabricated_object.name).to eq('aaa')
+        expect(fabricated_object).to be_a(NamespacedClasses::RubyObject)
+      end
     end
   end
 
@@ -282,7 +299,7 @@ describe Fabrication do
   end
 
   context 'with multiple callbacks' do
-    subject { Fabricate(:multiple_callbacks) }
+    let(:fabricated_object) { Fabricate(:multiple_callbacks) }
 
     before do
       unless described_class.manager[:multiple_callbacks]
@@ -293,12 +310,14 @@ describe Fabrication do
       end
     end
 
-    its(:callback1) { should == 'value1' }
-    its(:callback2) { should == 'value2' }
+    it 'executes the callbacks' do
+      expect(fabricated_object.callback1).to eq('value1')
+      expect(fabricated_object.callback2).to eq('value2')
+    end
   end
 
   context 'with multiple, inherited callbacks' do
-    subject { Fabricate(:multiple_inherited_callbacks) }
+    let(:fabricated_object) { Fabricate(:multiple_inherited_callbacks) }
 
     before do
       unless described_class.manager[:multiple_inherited_callbacks]
@@ -308,17 +327,19 @@ describe Fabrication do
       end
     end
 
-    its(:callback3) { 'value1value2' }
+    it 'executes all all callbacks' do
+      expect(fabricated_object.callback3).to eq('value1value2')
+    end
   end
 
   describe '.clear_definitions' do
-    subject { described_class.manager }
-
     before { described_class.clear_definitions }
 
     after { described_class.manager.load_definitions }
 
-    it { should be_empty }
+    it 'clears the definitions in the manager' do
+      expect(described_class.manager).to be_empty
+    end
   end
 
   context 'when defining a fabricator twice' do
@@ -354,16 +375,27 @@ describe Fabrication do
   end
 
   describe 'Fabricate with a sequence' do
-    subject { Fabricate(:sequencer) }
+    let(:fabricated_object) { Fabricate(:sequencer) }
 
-    its(:simple_iterator) { should == 0 }
-    its(:param_iterator)  { should == 10 }
-    its(:block_iterator)  { should == 'block2' }
+    it 'starts a zero' do
+      expect(fabricated_object.simple_iterator).to eq(0)
+    end
 
-    context 'when namespaced' do
-      subject { Fabricate('Sequencer::Namespaced') }
+    it 'increments from a starting point when provided' do
+      expect(fabricated_object.param_iterator).to eq(10)
+    end
 
-      its(:iterator) { should == 0 }
+    it 'passes the right number to blocks' do
+      expect(fabricated_object.block_iterator).to eq('block2')
+    end
+
+    context 'with a namespace' do
+      let(:fabricated_object) { Fabricate('Sequencer::Namespaced') }
+
+      it 'creates the correct object' do
+        expect(fabricated_object).to be_a(Sequencer::Namespaced)
+        expect(fabricated_object.iterator).to eq(0)
+      end
     end
   end
 
@@ -373,12 +405,12 @@ describe Fabrication do
     after { described_class.manager.freeze }
 
     it 'throws an error' do
-      expect { Fabricate(:your_mom) }.to raise_error(Fabrication::MisplacedFabricateError)
+      expect { Fabricate(:an_error) }.to raise_error(Fabrication::MisplacedFabricateError)
     end
   end
 
   describe 'using an actual class in options' do
-    subject { Fabricate(:actual_class) }
+    let(:fabricated_object) { Fabricate(:actual_class) }
 
     context 'with from' do
       before do
@@ -389,8 +421,10 @@ describe Fabrication do
 
       after { described_class.clear_definitions }
 
-      its(:name) { should == 'Hashrocket' }
-      it { should be_kind_of(OpenStruct) }
+      it 'uses the provided class' do
+        expect(fabricated_object.name).to eq('Hashrocket')
+        expect(fabricated_object).to be_a(OpenStruct)
+      end
     end
 
     context 'with class_name' do
@@ -402,8 +436,10 @@ describe Fabrication do
 
       after { described_class.clear_definitions }
 
-      its(:name) { should == 'Hashrocket' }
-      it { should be_kind_of(OpenStruct) }
+      it 'uses the provided class' do
+        expect(fabricated_object.name).to eq('Hashrocket')
+        expect(fabricated_object).to be_a(OpenStruct)
+      end
     end
   end
 
