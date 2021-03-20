@@ -3,15 +3,15 @@ require 'spec_helper'
 describe Fabrication::Schematic::Attribute do
   describe '.new' do
     context 'with name, params, and a static value' do
-      subject do
-        described_class.new(Object, 'a', 'c', { b: 1 })
-      end
+      let(:attribute) { described_class.new(Object, 'a', 'c', { b: 1 }) }
 
-      its(:klass)  { should == Object }
-      its(:name)   { should == 'a' }
-      its(:params) { should == { b: 1 } }
-      its(:value)  { should == 'c' }
-      it { should_not be_transient }
+      it 'stores the params properly' do
+        expect(attribute.klass).to eq(Object)
+        expect(attribute.name).to eq('a')
+        expect(attribute.params).to eq({ b: 1 })
+        expect(attribute.value).to eq('c')
+        expect(attribute).not_to be_transient
+      end
     end
 
     context 'with a block value' do
@@ -25,10 +25,12 @@ describe Fabrication::Schematic::Attribute do
     end
 
     context 'with nils' do
-      subject { described_class.new(Object, 'a', nil) }
+      let(:attribute) { described_class.new(Object, 'a', nil) }
 
-      its(:params) { should == {} }
-      its(:value) { should be_nil }
+      it 'stores the params correctly' do
+        expect(attribute.params).to eq({})
+        expect(attribute.value).to be_nil
+      end
     end
   end
 
