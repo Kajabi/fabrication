@@ -60,5 +60,3 @@ RSpec/NamedSubject:
   Enabled: False
 RSpec/NestedGroups:
   Enabled: False
-RSpec/NotToNot:
-  Enabled: False
