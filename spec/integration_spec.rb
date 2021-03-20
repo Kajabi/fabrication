@@ -82,12 +82,12 @@ shared_examples 'something fabricatable' do
     it { should be_kind_of(Fabrication::Support.hash_class) }
 
     it 'serializes the attributes' do
-      should include({
-                       dynamic_field: nil,
-                       nil_field: nil,
-                       number_field: 5,
-                       string_field: 'content'
-                     })
+      expect(subject).to include({
+                                   dynamic_field: nil,
+                                   nil_field: nil,
+                                   number_field: 5,
+                                   string_field: 'content'
+                                 })
     end
   end
 
@@ -119,14 +119,14 @@ describe Fabrication do
     it_behaves_like 'something fabricatable'
 
     context 'associations in attributes_for' do
-      subject do
+      let(:attributes_for) do
         Fabricate.attributes_for(:child_active_record_model, parent_active_record_model: parent_model)
       end
 
       let(:parent_model) { Fabricate(:parent_active_record_model) }
 
       it 'serializes the belongs_to as an id' do
-        should include({ parent_active_record_model_id: parent_model.id })
+        expect(attributes_for).to include({ parent_active_record_model_id: parent_model.id })
       end
     end
 
@@ -146,7 +146,7 @@ describe Fabrication do
     it_behaves_like 'something fabricatable'
 
     context 'associations in attributes_for' do
-      subject do
+      let(:attributes_for) do
         Fabricate.attributes_for(
           :child_data_mapper_model, parent_data_mapper_model: parent_model
         )
@@ -155,7 +155,7 @@ describe Fabrication do
       let(:parent_model) { Fabricate(:parent_data_mapper_model) }
 
       it 'serializes the belongs_to as an id' do
-        should include({ parent_data_mapper_model_id: parent_model.id })
+        expect(attributes_for).to include({ parent_data_mapper_model_id: parent_model.id })
       end
     end
   end

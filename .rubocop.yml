@@ -49,5 +49,3 @@ RSpec/HookArgument:
   Enabled: False
 RSpec/ImplicitExpect:
   Enabled: False
-RSpec/ImplicitSubject:
-  Enabled: False
