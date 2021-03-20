@@ -5,24 +5,28 @@ describe Fabrication::Cucumber::StepFabricator do
 
   describe '#klass' do
     context 'with a schematic for class "Boom"' do
-      subject { Fabrication::Cucumber::StepFabricator.new(name).klass }
+      subject { described_class.new(name).klass }
 
       let(:fabricator_name) { :dog }
 
       before do
-        allow(Fabricate).to receive(:schematic).with(fabricator_name).and_return(double(klass: 'Boom'))
+        allow(Fabricate).to receive(:schematic).with(fabricator_name).and_return(
+          instance_double(
+            'Fabrication::Schematic::Definition', klass: 'Boom'
+          )
+        )
       end
 
       it { should == 'Boom' }
 
-      context 'given a human name' do
+      context 'with a human name' do
         let(:name) { 'weiner dogs' }
         let(:fabricator_name) { :weiner_dog }
 
         it { should == 'Boom' }
       end
 
-      context 'given a titlecase human name' do
+      context 'with a titlecase human name' do
         let(:name) { 'Weiner Dog' }
         let(:fabricator_name) { :weiner_dog }
 
@@ -33,17 +37,19 @@ describe Fabrication::Cucumber::StepFabricator do
 
   describe '#n' do
     let(:n) { 3 }
-    let(:fabricator) { Fabrication::Cucumber::StepFabricator.new(name) }
+    let(:fabricator) { described_class.new(name) }
 
     it 'fabricates n times' do
-      expect(Fabricate).to receive(:create).with(:dog, {}).exactly(n).times
+      allow(Fabricate).to receive(:create).with(:dog, {})
       fabricator.n n
+      expect(Fabricate).to have_received(:create).with(:dog, {}).exactly(n).times
     end
 
     it 'fabricates with attrs' do
-      expect(Fabricate).to receive(:create)
-        .with(:dog, collar: 'red').at_least(1)
+      allow(Fabricate).to receive(:create).with(:dog, collar: 'red')
       fabricator.n n, collar: 'red'
+      expect(Fabricate).to have_received(:create)
+        .with(:dog, collar: 'red').at_least(1)
     end
 
     context 'with a plural subject' do
@@ -69,58 +75,66 @@ describe Fabrication::Cucumber::StepFabricator do
 
   describe '#from_table' do
     it 'maps column names to attribute names' do
-      table = double(hashes: [{ 'Favorite Color' => 'pink' }])
-      expect(Fabricate).to receive(:create).with(:bear, favorite_color: 'pink')
-      Fabrication::Cucumber::StepFabricator.new('bears').from_table(table)
+      table = instance_double('ASTable', hashes: [{ 'Favorite Color' => 'pink' }])
+      allow(Fabricate).to receive(:create).with(:bear, favorite_color: 'pink')
+      described_class.new('bears').from_table(table)
+      expect(Fabricate).to have_received(:create).with(:bear, favorite_color: 'pink')
     end
 
     context 'with table transforms' do
-      let(:table) { double(hashes: [{ 'some' => 'thing' }]) }
+      let(:table) { instance_double('ASTable', hashes: [{ 'some' => 'thing' }]) }
 
       before { allow(Fabricate).to receive(:create) }
 
       it 'applies transforms' do
-        expect(Fabrication::Transform).to receive(:apply_to)
+        allow(Fabrication::Transform).to receive(:apply_to)
           .with('bears', { some: 'thing' }).and_return({})
-        Fabrication::Cucumber::StepFabricator.new('bears').from_table(table)
+
+        described_class.new('bears').from_table(table)
+
+        expect(Fabrication::Transform).to have_received(:apply_to)
+          .with('bears', { some: 'thing' })
       end
     end
 
     context 'with a plural subject' do
-      let(:table) { double('ASTable', hashes: hashes) }
+      let(:table) { instance_double('ASTable', hashes: hashes) }
       let(:hashes) do
         [{ 'some' => 'thing' },
          { 'some' => 'panother' }]
       end
 
       it 'fabricates with each rows attributes' do
-        expect(Fabricate).to receive(:create).with(:dog, { some: 'thing' })
-        expect(Fabricate).to receive(:create).with(:dog, { some: 'panother' })
-        Fabrication::Cucumber::StepFabricator.new(name).from_table(table)
+        allow(Fabricate).to receive(:create).with(:dog, { some: 'thing' })
+        allow(Fabricate).to receive(:create).with(:dog, { some: 'panother' })
+        described_class.new(name).from_table(table)
+        expect(Fabricate).to have_received(:create).with(:dog, { some: 'thing' })
+        expect(Fabricate).to have_received(:create).with(:dog, { some: 'panother' })
       end
 
       it 'remembers' do
         allow(Fabricate).to receive(:create).and_return('dog1', 'dog2')
-        Fabrication::Cucumber::StepFabricator.new(name).from_table(table)
+        described_class.new(name).from_table(table)
         expect(Fabrication::Cucumber::Fabrications[name]).to eq(%w[dog1 dog2])
       end
     end
 
-    context 'singular' do
+    context 'when singular' do
       let(:name) { 'dog' }
-      let(:table) { double('ASTable', rows_hash: rows_hash) }
+      let(:table) { instance_double('ASTable', rows_hash: rows_hash) }
       let(:rows_hash) do
         { 'some' => 'thing' }
       end
 
       it 'fabricates with each row as an attribute' do
-        expect(Fabricate).to receive(:create).with(:dog, { some: 'thing' })
-        Fabrication::Cucumber::StepFabricator.new(name).from_table(table)
+        allow(Fabricate).to receive(:create).with(:dog, { some: 'thing' })
+        described_class.new(name).from_table(table)
+        expect(Fabricate).to have_received(:create).with(:dog, { some: 'thing' })
       end
 
       it 'remembers' do
         allow(Fabricate).to receive(:create).and_return('dog1')
-        Fabrication::Cucumber::StepFabricator.new(name).from_table(table)
+        described_class.new(name).from_table(table)
         expect(Fabrication::Cucumber::Fabrications[name]).to eq('dog1')
       end
     end

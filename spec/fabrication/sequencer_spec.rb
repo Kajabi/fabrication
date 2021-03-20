@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe Fabrication::Sequencer do
   context 'with no arguments' do
-    subject { Fabrication::Sequencer.sequence }
+    subject { described_class.sequence }
 
     it { should == 0 }
 
     it 'creates a default sequencer' do
-      expect(Fabrication::Sequencer.sequences[:_default]).to eq(1)
+      expect(described_class.sequences[:_default]).to eq(1)
     end
   end
 
@@ -52,16 +52,11 @@ describe Fabrication::Sequencer do
     end
 
     it 'increments by one with each call' do
-      expect(Fabricate.sequence(:email) do |i|
-        "user#{i}@example.com"
-      end).to eq('user1@example.com')
-
-      expect(Fabricate.sequence(:email) do |i|
-        "user#{i}@example.com"
-      end).to eq('user2@example.com')
+      expect(Fabricate.sequence(:email) { |i| "user#{i}@example.com" }).to eq('user1@example.com')
+      expect(Fabricate.sequence(:email) { |i| "user#{i}@example.com" }).to eq('user2@example.com')
     end
 
-    context 'and then without a block' do
+    context 'without a block' do
       it 'remembers the original block' do
         Fabricate.sequence :changing_blocks do |i|
           i * 10
@@ -69,7 +64,7 @@ describe Fabrication::Sequencer do
         expect(Fabricate.sequence(:changing_blocks)).to eq(10)
       end
 
-      context 'and then with a new block' do
+      context 'with a new block' do
         it 'evaluates the new block' do
           expect(Fabricate.sequence(:changing_blocks) { |i| i**2 }).to eq(4)
         end
@@ -83,12 +78,8 @@ describe Fabrication::Sequencer do
 
   context 'with two sequences declared with blocks' do
     it 'remembers both blocks' do
-      Fabricate.sequence(:shapes) do |i|
-        %w[square circle rectangle][i % 3]
-      end
-      Fabricate.sequence(:colors) do |i|
-        %w[red green blue][i % 3]
-      end
+      Fabricate.sequence(:shapes) { |i| %w[square circle rectangle][i % 3] }
+      Fabricate.sequence(:colors) { |i| %w[red green blue][i % 3] }
       expect(Fabricate.sequence(:shapes)).to eq('circle')
       expect(Fabricate.sequence(:colors)).to eq('green')
     end
@@ -96,12 +87,12 @@ describe Fabrication::Sequencer do
 
   context 'with a default sequence start' do
     before do
-      Fabrication::Sequencer.reset
+      described_class.reset
       Fabrication::Config.sequence_start = 10_000
     end
 
     after do
-      Fabrication::Sequencer.reset
+      described_class.reset
     end
 
     it 'starts a new sequence at the default' do

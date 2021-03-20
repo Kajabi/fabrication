@@ -2,15 +2,13 @@ require 'spec_helper'
 
 describe Fabrication::Generator::Base do
   describe '.supports?' do
-    subject { Fabrication::Generator::Base }
-
     it 'supports any object' do
-      expect(subject.supports?(Object)).to be true
+      expect(described_class.supports?(Object)).to be true
     end
   end
 
   describe '#build' do
-    let(:generator) { Fabrication::Generator::Base.new(ParentRubyObject) }
+    let(:generator) { described_class.new(ParentRubyObject) }
 
     let(:attributes) do
       Fabrication::Schematic::Definition.new('ParentRubyObject') do
@@ -34,9 +32,9 @@ describe Fabrication::Generator::Base do
     end
 
     context 'with on_init block' do
-      subject { schematic.fabricate }
+      let(:fabricated_object) { schematic.fabricate }
 
-      context 'using init_with' do
+      context 'when using init_with' do
         let(:schematic) do
           Fabrication::Schematic::Definition.new('ClassWithInit') do
             on_init { init_with(:a, :b) }
@@ -44,12 +42,12 @@ describe Fabrication::Generator::Base do
         end
 
         it "sends the return value of the block to the klass' initialize method" do
-          expect(subject.arg1).to eq(:a)
-          expect(subject.arg2).to eq(:b)
+          expect(fabricated_object.arg1).to eq(:a)
+          expect(fabricated_object.arg2).to eq(:b)
         end
       end
 
-      context 'not using init_with' do
+      context 'when not using init_with' do
         let(:schematic) do
           Fabrication::Schematic::Definition.new('ClassWithInit') do
             on_init { %i[a b] }
@@ -57,16 +55,16 @@ describe Fabrication::Generator::Base do
         end
 
         it "sends the return value of the block to the klass' initialize method" do
-          expect(subject.arg1).to eq(:a)
-          expect(subject.arg2).to eq(:b)
+          expect(fabricated_object.arg1).to eq(:a)
+          expect(fabricated_object.arg2).to eq(:b)
         end
       end
     end
 
     context 'with initialize_with block' do
-      subject { schematic.fabricate }
+      let(:fabricated_object) { schematic.fabricate }
 
-      context 'using only raw values' do
+      context 'when using only raw values' do
         let(:schematic) do
           Fabrication::Schematic::Definition.new('ClassWithInit') do
             initialize_with { Struct.new(:arg1, :arg2).new(:fixed_value) }
@@ -74,12 +72,12 @@ describe Fabrication::Generator::Base do
         end
 
         it 'saves the return value of the block as instance' do
-          expect(subject.arg1).to eq(:fixed_value)
-          expect(subject.arg2).to eq(nil)
+          expect(fabricated_object.arg1).to eq(:fixed_value)
+          expect(fabricated_object.arg2).to eq(nil)
         end
       end
 
-      context 'using attributes inside block' do
+      context 'when using attributes inside block' do
         let(:schematic) do
           Fabrication::Schematic::Definition.new('ClassWithInit') do
             arg1 10
@@ -89,32 +87,32 @@ describe Fabrication::Generator::Base do
 
         context 'without override' do
           it 'saves the return value of the block as instance' do
-            expect(subject.arg1).to eq(10)
-            expect(subject.arg2).to eq(20)
+            expect(fabricated_object.arg1).to eq(10)
+            expect(fabricated_object.arg2).to eq(20)
           end
         end
 
         context 'with override' do
-          subject { schematic.fabricate(arg1: 30) }
+          let(:fabricated_object) { schematic.fabricate(arg1: 30) }
 
           it 'saves the return value of the block as instance' do
-            expect(subject.arg1).to eq(30)
-            expect(subject.arg2).to eq(40)
+            expect(fabricated_object.arg1).to eq(30)
+            expect(fabricated_object.arg2).to eq(40)
           end
         end
 
         context 'with nil override' do
-          subject { schematic.fabricate(arg1: nil) }
+          let(:fabricated_object) { schematic.fabricate(arg1: nil) }
 
           it 'saves the return value of the block as instance' do
-            expect(subject.arg1).to eq(nil)
-            expect(subject.arg2).to eq(10)
+            expect(fabricated_object.arg1).to eq(nil)
+            expect(fabricated_object.arg2).to eq(10)
           end
         end
       end
     end
 
-    context 'using an after_create hook' do
+    context 'when using an after_create hook' do
       let(:schematic) do
         Fabrication::Schematic::Definition.new('ParentRubyObject') do
           string_field 'something'
@@ -131,7 +129,7 @@ describe Fabrication::Generator::Base do
       end
     end
 
-    context 'all the callbacks' do
+    context 'with all the callbacks' do
       subject { schematic.build }
 
       let(:schematic) do
@@ -165,7 +163,7 @@ describe Fabrication::Generator::Base do
   end
 
   describe '#create' do
-    context 'all the callbacks' do
+    context 'with all the callbacks' do
       subject { schematic.fabricate }
 
       let(:schematic) do
@@ -187,13 +185,14 @@ describe Fabrication::Generator::Base do
 
   describe '#persist' do
     let(:instance) { double }
-    let(:generator) { Fabrication::Generator::Base.new(Object) }
+    let(:generator) { described_class.new(Object) }
 
     before { generator.send(:_instance=, instance) }
 
     it 'saves' do
-      expect(instance).to receive(:save!)
+      allow(instance).to receive(:save!)
       generator.send(:persist)
+      expect(instance).to have_received(:save!)
     end
   end
 

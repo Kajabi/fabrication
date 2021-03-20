@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Fabrication::Schematic::Definition do
   let(:schematic) do
-    Fabrication::Schematic::Definition.new('OpenStruct') do
+    described_class.new('OpenStruct') do
       name 'Orgasmo'
       something(param: 2) { 'hi!' }
       another_thing { 25 }
@@ -10,21 +10,21 @@ describe Fabrication::Schematic::Definition do
   end
 
   describe 'generator selection' do
-    subject { Fabrication::Schematic::Definition.new(klass).generator }
+    subject { described_class.new(klass).generator }
 
-    context 'for an activerecord object', depends_on: :active_record do
+    context 'with an activerecord object', depends_on: :active_record do
       let(:klass) { 'ParentActiveRecordModel' }
 
       it { should == Fabrication::Generator::ActiveRecord }
     end
 
-    context 'for a mongoid object', depends_on: :mongoid do
+    context 'with a mongoid object', depends_on: :mongoid do
       let(:klass) { 'ParentMongoidDocument' }
 
       it { should == Fabrication::Generator::Mongoid }
     end
 
-    context 'for a sequel object', depends_on: :sequel do
+    context 'with a sequel object', depends_on: :sequel do
       let(:klass) { 'ParentSequelModel' }
 
       it { should == Fabrication::Generator::Sequel }
@@ -58,24 +58,24 @@ describe Fabrication::Schematic::Definition do
   describe '#attributes' do
     it 'loads the fabricator body' do
       schematic.attributes = nil
-      expect(schematic).to receive(:load_body)
+      allow(schematic).to receive(:load_body)
       expect(schematic.attributes).to eq([])
+      expect(schematic).to have_received(:load_body)
     end
   end
 
   describe '#callbacks' do
     it 'loads the fabricator body' do
       schematic.callbacks = nil
-      expect(schematic).to receive(:load_body)
+      allow(schematic).to receive(:load_body)
       expect(schematic.callbacks).to eq({})
+      expect(schematic).to have_received(:load_body)
     end
   end
 
   describe '#fabricate' do
-    context 'an instance' do
-      it 'generates a new instance' do
-        expect(schematic.fabricate).to be_kind_of(OpenStruct)
-      end
+    it 'generates a new instance' do
+      expect(schematic.fabricate).to be_kind_of(OpenStruct)
     end
   end
 
@@ -96,19 +96,21 @@ describe Fabrication::Schematic::Definition do
 
   describe '#merge' do
     context 'without inheritance' do
-      subject { schematic.merge }
+      let(:merged_schematic) { schematic.merge }
 
-      it { should_not == schematic }
+      it 'makes a new schematic' do
+        expect(schematic).not_to eq(merged_schematic)
+      end
 
       it "stored 'name' correctly" do
-        attribute = subject.attribute(:name)
+        attribute = merged_schematic.attribute(:name)
         expect(attribute.name).to eq(:name)
         expect(attribute.params).to eq({})
         expect(attribute.value).to eq('Orgasmo')
       end
 
       it "stored 'something' correctly" do
-        attribute = subject.attribute(:something)
+        attribute = merged_schematic.attribute(:something)
         expect(attribute.name).to eq(:something)
         expect(attribute.params).to eq({ param: 2 })
         expect(attribute.value).to be_a(Proc)
@@ -116,7 +118,7 @@ describe Fabrication::Schematic::Definition do
       end
 
       it "stored 'another_thing' correctly" do
-        attribute = subject.attribute(:another_thing)
+        attribute = merged_schematic.attribute(:another_thing)
         expect(attribute.name).to eq(:another_thing)
         expect(attribute.params).to eq({})
         expect(attribute.value).to be_a(Proc)
@@ -125,7 +127,7 @@ describe Fabrication::Schematic::Definition do
     end
 
     context 'with inheritance' do
-      subject do
+      let(:merged_schematic) do
         schematic.merge do
           name { 'Willis' }
           something 'Else!'
@@ -133,10 +135,12 @@ describe Fabrication::Schematic::Definition do
         end
       end
 
-      it { should_not == schematic }
+      it 'makes a new schematic' do
+        expect(schematic).not_to eq(merged_schematic)
+      end
 
       it "stored 'name' correctly" do
-        attribute = subject.attribute(:name)
+        attribute = merged_schematic.attribute(:name)
         expect(attribute.name).to eq(:name)
         expect(attribute.params).to eq({})
         expect(attribute.value).to be_a(Proc)
@@ -144,14 +148,14 @@ describe Fabrication::Schematic::Definition do
       end
 
       it "stored 'something' correctly" do
-        attribute = subject.attribute(:something)
+        attribute = merged_schematic.attribute(:something)
         expect(attribute.name).to eq(:something)
         expect(attribute.params).to eq({})
         expect(attribute.value).to eq('Else!')
       end
 
       it "stored 'another_thing' correctly" do
-        attribute = subject.attribute(:another_thing)
+        attribute = merged_schematic.attribute(:another_thing)
         expect(attribute.name).to eq(:another_thing)
         expect(attribute.params).to eq({ thats_what: 'she_said' })
         expect(attribute.value).to be_a(Proc)
@@ -164,7 +168,7 @@ describe Fabrication::Schematic::Definition do
     let(:init_block) { -> {} }
     let(:init_schematic) do
       block = init_block
-      Fabrication::Schematic::Definition.new('OpenStruct') do
+      described_class.new('OpenStruct') do
         on_init(&block)
       end
     end
@@ -192,7 +196,7 @@ describe Fabrication::Schematic::Definition do
     let(:init_block) { -> {} }
     let(:init_schematic) do
       block = init_block
-      Fabrication::Schematic::Definition.new('OpenStruct') do
+      described_class.new('OpenStruct') do
         initialize_with(&block)
       end
     end
@@ -218,7 +222,7 @@ describe Fabrication::Schematic::Definition do
 
   describe '#transient' do
     let(:definition) do
-      Fabrication::Schematic::Definition.new('OpenStruct') do
+      described_class.new('OpenStruct') do
         transient :one, two: 'with a default value', three: 200
       end
     end
@@ -245,7 +249,7 @@ describe Fabrication::Schematic::Definition do
     subject { definition.sorted_attributes.map(&:name) }
 
     let(:definition) do
-      Fabrication::Schematic::Definition.new('OpenStruct') do
+      described_class.new('OpenStruct') do
         three { nil }
         one ''
         transient :two

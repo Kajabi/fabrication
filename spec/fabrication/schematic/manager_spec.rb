@@ -1,13 +1,11 @@
 require 'spec_helper'
 
 describe Fabrication::Schematic::Manager do
-  let(:manager) { Fabrication::Schematic::Manager.instance }
+  let(:manager) { described_class.instance }
 
   before { manager.clear }
 
   describe '#register' do
-    subject { manager }
-
     let(:options) { { aliases: ['thing_one', :thing_two] } }
 
     before do
@@ -18,21 +16,21 @@ describe Fabrication::Schematic::Manager do
     end
 
     it 'creates a schematic' do
-      expect(subject.schematics[:open_struct]).to be
+      expect(manager.schematics[:open_struct]).not_to be_nil
     end
 
     it 'infers the correct class' do
-      expect(subject.schematics[:open_struct].send(:klass)).to eq(OpenStruct)
+      expect(manager.schematics[:open_struct].send(:klass)).to eq(OpenStruct)
     end
 
     it 'has the attributes' do
-      expect(subject.schematics[:open_struct].attributes.size).to eq(2)
+      expect(manager.schematics[:open_struct].attributes.size).to eq(2)
     end
 
     context 'with an alias' do
       it 'recognizes the aliases' do
-        expect(subject.schematics[:thing_one]).to eq(subject.schematics[:open_struct])
-        expect(subject.schematics[:thing_two]).to eq(subject.schematics[:open_struct])
+        expect(manager.schematics[:thing_one]).to eq(manager.schematics[:open_struct])
+        expect(manager.schematics[:thing_two]).to eq(manager.schematics[:open_struct])
       end
     end
   end
@@ -60,22 +58,24 @@ describe Fabrication::Schematic::Manager do
 
     context 'with multiple path_prefixes and fabricator_paths' do
       it 'loads them all' do
-        expect(Fabrication::Config.path_prefixes).to receive(:each).and_call_original
-        expect(Fabrication::Config.fabricator_paths).to receive(:each)
+        allow(Fabrication::Config.path_prefixes).to receive(:each).and_call_original
+        allow(Fabrication::Config.fabricator_paths).to receive(:each)
         Fabrication.manager.load_definitions
+        expect(Fabrication::Config.path_prefixes).to have_received(:each)
+        expect(Fabrication::Config.fabricator_paths).to have_received(:each)
       end
     end
 
-    context 'happy path' do
+    context 'with the happy path' do
       it 'loaded definitions' do
         Fabrication.manager.load_definitions
-        expect(Fabrication.manager[:parent_ruby_object]).to be
+        expect(Fabrication.manager[:parent_ruby_object]).not_to be_nil
       end
     end
 
     context 'when an error occurs during the load' do
       it 'still freezes the manager' do
-        expect(Fabrication::Config).to receive(:fabricator_paths).and_raise(Exception)
+        allow(Fabrication::Config).to receive(:fabricator_paths).and_raise(Exception)
         expect { Fabrication.manager.load_definitions }.to raise_error(Exception)
         expect(Fabrication.manager).not_to be_initializing
       end
