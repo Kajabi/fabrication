@@ -49,5 +49,3 @@ RSpec/ExampleLength:
   Enabled: False
 RSpec/ExampleWording:
   Enabled: False
-RSpec/HookArgument:
-  Enabled: False
