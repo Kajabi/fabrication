@@ -10,7 +10,11 @@ describe Fabrication::Cucumber::StepFabricator do
       let(:fabricator_name) { :dog }
 
       before do
-        allow(Fabricate).to receive(:schematic).with(fabricator_name).and_return(double(klass: 'Boom'))
+        allow(Fabricate).to receive(:schematic).with(fabricator_name).and_return(
+          instance_double(
+            'Fabrication::Schematic::Definition', klass: 'Boom'
+          )
+        )
       end
 
       it { should == 'Boom' }
@@ -69,13 +73,13 @@ describe Fabrication::Cucumber::StepFabricator do
 
   describe '#from_table' do
     it 'maps column names to attribute names' do
-      table = double(hashes: [{ 'Favorite Color' => 'pink' }])
+      table = instance_double('ASTable', hashes: [{ 'Favorite Color' => 'pink' }])
       expect(Fabricate).to receive(:create).with(:bear, favorite_color: 'pink')
       Fabrication::Cucumber::StepFabricator.new('bears').from_table(table)
     end
 
     context 'with table transforms' do
-      let(:table) { double(hashes: [{ 'some' => 'thing' }]) }
+      let(:table) { instance_double('ASTable', hashes: [{ 'some' => 'thing' }]) }
 
       before { allow(Fabricate).to receive(:create) }
 
@@ -87,7 +91,7 @@ describe Fabrication::Cucumber::StepFabricator do
     end
 
     context 'with a plural subject' do
-      let(:table) { double('ASTable', hashes: hashes) }
+      let(:table) { instance_double('ASTable', hashes: hashes) }
       let(:hashes) do
         [{ 'some' => 'thing' },
          { 'some' => 'panother' }]
@@ -108,7 +112,7 @@ describe Fabrication::Cucumber::StepFabricator do
 
     context 'singular' do
       let(:name) { 'dog' }
-      let(:table) { double('ASTable', rows_hash: rows_hash) }
+      let(:table) { instance_double('ASTable', rows_hash: rows_hash) }
       let(:rows_hash) do
         { 'some' => 'thing' }
       end
