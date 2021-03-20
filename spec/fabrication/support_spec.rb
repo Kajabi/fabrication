@@ -53,7 +53,7 @@ describe Fabrication::Support do
       it { should == HashWithIndifferentAccess }
     end
 
-    # rubocop:disable Lint/ConstantDefinitionInBlock
+    # rubocop:disable Lint/ConstantDefinitionInBlock, RSpec/LeakyConstantDeclaration
     context 'without HashWithIndifferentAccess defined' do
       before do
         TempHashWithIndifferentAccess = HashWithIndifferentAccess
@@ -68,6 +68,6 @@ describe Fabrication::Support do
 
       it { should == Hash }
     end
-    # rubocop:enable Lint/ConstantDefinitionInBlock
+    # rubocop:enable Lint/ConstantDefinitionInBlock, RSpec/LeakyConstantDeclaration
   end
 end
