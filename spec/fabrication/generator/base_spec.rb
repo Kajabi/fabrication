@@ -8,7 +8,7 @@ describe Fabrication::Generator::Base do
   end
 
   describe '#build' do
-    let(:generator) { Fabrication::Generator::Base.new(ParentRubyObject) }
+    let(:generator) { described_class.new(ParentRubyObject) }
 
     let(:attributes) do
       Fabrication::Schematic::Definition.new('ParentRubyObject') do
@@ -185,7 +185,7 @@ describe Fabrication::Generator::Base do
 
   describe '#persist' do
     let(:instance) { double }
-    let(:generator) { Fabrication::Generator::Base.new(Object) }
+    let(:generator) { described_class.new(Object) }
 
     before { generator.send(:_instance=, instance) }
 

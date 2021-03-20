@@ -43,5 +43,3 @@ RSpec/Be:
   Enabled: False
 RSpec/ContextWording:
   Enabled: False
-RSpec/DescribedClass:
-  Enabled: False
