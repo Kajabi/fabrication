@@ -51,5 +51,3 @@ RSpec/ImplicitExpect:
   Enabled: False
 RSpec/ImplicitSubject:
   Enabled: False
-RSpec/ItBehavesLike:
-  Enabled: False
