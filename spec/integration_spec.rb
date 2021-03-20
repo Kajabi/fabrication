@@ -92,7 +92,7 @@ shared_examples 'something fabricatable' do
     subject { Fabricate("#{Fabrication::Support.singularize(collection_field.to_s)}_with_parent") }
 
     it 'sets the parent association' do
-      expect(subject.send(fabricator_name)).to be
+      expect(subject.send(fabricator_name)).not_to be_nil
     end
 
     it 'sets the id of the associated object' do
@@ -348,7 +348,7 @@ describe Fabrication do
       end
 
       it 'works fine' do
-        expect(Fabricate(:widget)).to be
+        expect(Fabricate(:widget)).not_to be_nil
       end
     end
   end

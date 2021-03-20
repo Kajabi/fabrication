@@ -39,5 +39,3 @@ Metrics/MethodLength:
   Enabled: False
 Metrics/PerceivedComplexity:
   Enabled: False
-RSpec/Be:
-  Enabled: False
