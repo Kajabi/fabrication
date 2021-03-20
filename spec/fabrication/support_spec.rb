@@ -34,7 +34,7 @@ describe Fabrication::Support do
       end
     end
 
-    context 'and custom const_missing is defined' do
+    context 'when custom const_missing is defined' do
       it 'raises an exception with the message from the original exception' do
         expect { described_class.class_for('Family::Mom') }
           .to raise_error(Fabrication::UnfabricatableError, /original message/)

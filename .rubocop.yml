@@ -41,5 +41,3 @@ Metrics/PerceivedComplexity:
   Enabled: False
 RSpec/Be:
   Enabled: False
-RSpec/ContextWording:
-  Enabled: False
