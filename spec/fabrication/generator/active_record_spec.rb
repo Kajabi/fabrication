@@ -35,8 +35,9 @@ describe Fabrication::Generator::ActiveRecord do
       before { generator.send(:_instance=, instance) }
 
       it 'saves' do
-        expect(instance).to receive(:save!)
+        allow(instance).to receive(:save!)
         generator.send(:persist)
+        expect(instance).to have_received(:save!)
       end
     end
 

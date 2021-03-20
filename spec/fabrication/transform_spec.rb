@@ -10,16 +10,18 @@ describe Fabrication::Transform do
     context 'find definitions' do
       context 'transforms are empty' do
         it 'loads the definitions' do
-          expect(Fabrication.manager).to receive(:load_definitions)
+          allow(Fabrication.manager).to receive(:load_definitions)
           Fabrication::Transform.apply_to(nil, name: 'Shay')
+          expect(Fabrication.manager).to have_received(:load_definitions)
         end
       end
 
       context 'transforms are not empty' do
         it 'does not load the definitions' do
           Fabrication::Transform.apply_to(nil, name: 'Shay')
-          expect(Fabrication.manager).not_to receive(:load_definitions)
+          allow(Fabrication.manager).to receive(:load_definitions)
           Fabrication::Transform.apply_to(nil, name: 'Gabriel')
+          expect(Fabrication.manager).not_to have_received(:load_definitions)
         end
       end
     end

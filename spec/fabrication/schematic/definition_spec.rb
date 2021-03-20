@@ -58,16 +58,18 @@ describe Fabrication::Schematic::Definition do
   describe '#attributes' do
     it 'loads the fabricator body' do
       schematic.attributes = nil
-      expect(schematic).to receive(:load_body)
+      allow(schematic).to receive(:load_body)
       expect(schematic.attributes).to eq([])
+      expect(schematic).to have_received(:load_body)
     end
   end
 
   describe '#callbacks' do
     it 'loads the fabricator body' do
       schematic.callbacks = nil
-      expect(schematic).to receive(:load_body)
+      allow(schematic).to receive(:load_body)
       expect(schematic.callbacks).to eq({})
+      expect(schematic).to have_received(:load_body)
     end
   end
 

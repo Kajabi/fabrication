@@ -58,9 +58,11 @@ describe Fabrication::Schematic::Manager do
 
     context 'with multiple path_prefixes and fabricator_paths' do
       it 'loads them all' do
-        expect(Fabrication::Config.path_prefixes).to receive(:each).and_call_original
-        expect(Fabrication::Config.fabricator_paths).to receive(:each)
+        allow(Fabrication::Config.path_prefixes).to receive(:each).and_call_original
+        allow(Fabrication::Config.fabricator_paths).to receive(:each)
         Fabrication.manager.load_definitions
+        expect(Fabrication::Config.path_prefixes).to have_received(:each)
+        expect(Fabrication::Config.fabricator_paths).to have_received(:each)
       end
     end
 

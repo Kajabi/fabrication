@@ -55,5 +55,3 @@ RSpec/ItBehavesLike:
   Enabled: False
 RSpec/LeakyConstantDeclaration:
   Enabled: False
-RSpec/MessageSpies:
-  Enabled: False
