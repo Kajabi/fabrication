@@ -45,5 +45,3 @@ RSpec/ContextWording:
   Enabled: False
 RSpec/DescribedClass:
   Enabled: False
-RSpec/ExampleLength:
-  Enabled: False

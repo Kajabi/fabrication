@@ -82,12 +82,9 @@ shared_examples 'something fabricatable' do
     it { should be_kind_of(Fabrication::Support.hash_class) }
 
     it 'serializes the attributes' do
-      expect(subject).to include({
-                                   dynamic_field: nil,
-                                   nil_field: nil,
-                                   number_field: 5,
-                                   string_field: 'content'
-                                 })
+      expect(subject).to include(
+        { dynamic_field: nil, nil_field: nil, number_field: 5, string_field: 'content' }
+      )
     end
   end
 
@@ -282,18 +279,6 @@ describe Fabrication do
     it 'sets lazy dynamic fields' do
       expect(Fabricate(:parent_mongoid_document) { lazy_dynamic_field 'foo' }.lazy_dynamic_field).to eq 'foo'
     end
-
-    context 'with disabled dynamic fields' do
-      it 'raises NoMethodError for mongoid_dynamic_field=' do
-        if Mongoid.respond_to?(:allow_dynamic_fields=)
-          Mongoid.allow_dynamic_fields = false
-          expect do
-            Fabricate(:parent_mongoid_document, mongoid_dynamic_field: 50)
-          end.to raise_error(Mongoid::Errors::UnknownAttribute, /mongoid_dynamic_field=/)
-          Mongoid.allow_dynamic_fields = true
-        end
-      end
-    end
   end
 
   context 'with multiple callbacks' do
@@ -431,9 +416,7 @@ describe Fabrication do
       end
 
       it 'throws a meaningful error' do
-        expect do
-          Fabricate(:infinite_recursor)
-        end.to raise_error(
+        expect { Fabricate(:infinite_recursor) }.to raise_error(
           Fabrication::InfiniteRecursionError,
           'You appear to have infinite recursion with the `infinite_recursor` fabricator'
         )
@@ -452,9 +435,7 @@ describe Fabrication do
       end
 
       it 'throws a meaningful error' do
-        expect do
-          Fabricate(:parent_recursor)
-        end.to raise_error(
+        expect { Fabricate(:parent_recursor) }.to raise_error(
           Fabrication::InfiniteRecursionError,
           'You appear to have infinite recursion with the `parent_recursor` fabricator'
         )

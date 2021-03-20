@@ -53,17 +53,11 @@ describe Fabricate do
     let(:as_params) { Fabricate.to_params(:parent_active_record_model_with_children) }
 
     it 'generates a hash from the object' do
-      expect(as_params).to eq({
-                                'dynamic_field' => nil,
-                                'nil_field' => nil,
-                                'number_field' => 5,
-                                'string_field' => 'content',
-                                'false_field' => false,
-                                'extra_fields' => {},
-                                'child_active_record_models' => [
-                                  { 'number_field' => 10 }, { 'number_field' => 10 }
-                                ]
-                              })
+      expect(as_params).to eq(
+        { 'dynamic_field' => nil, 'nil_field' => nil, 'number_field' => 5, 'string_field' => 'content',
+          'false_field' => false, 'extra_fields' => {}, 'child_active_record_models' =>
+          [{ 'number_field' => 10 }, { 'number_field' => 10 }] }
+      )
     end
 
     it 'is accessible as symbols' do

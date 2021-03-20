@@ -52,13 +52,8 @@ describe Fabrication::Sequencer do
     end
 
     it 'increments by one with each call' do
-      expect(Fabricate.sequence(:email) do |i|
-        "user#{i}@example.com"
-      end).to eq('user1@example.com')
-
-      expect(Fabricate.sequence(:email) do |i|
-        "user#{i}@example.com"
-      end).to eq('user2@example.com')
+      expect(Fabricate.sequence(:email) { |i| "user#{i}@example.com" }).to eq('user1@example.com')
+      expect(Fabricate.sequence(:email) { |i| "user#{i}@example.com" }).to eq('user2@example.com')
     end
 
     context 'and then without a block' do
@@ -83,12 +78,8 @@ describe Fabrication::Sequencer do
 
   context 'with two sequences declared with blocks' do
     it 'remembers both blocks' do
-      Fabricate.sequence(:shapes) do |i|
-        %w[square circle rectangle][i % 3]
-      end
-      Fabricate.sequence(:colors) do |i|
-        %w[red green blue][i % 3]
-      end
+      Fabricate.sequence(:shapes) { |i| %w[square circle rectangle][i % 3] }
+      Fabricate.sequence(:colors) { |i| %w[red green blue][i % 3] }
       expect(Fabricate.sequence(:shapes)).to eq('circle')
       expect(Fabricate.sequence(:colors)).to eq('green')
     end
