@@ -47,5 +47,3 @@ RSpec/DescribedClass:
   Enabled: False
 RSpec/ExampleLength:
   Enabled: False
-RSpec/ExampleWording:
-  Enabled: False
