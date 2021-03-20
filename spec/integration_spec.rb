@@ -76,7 +76,7 @@ shared_examples 'something fabricatable' do
   describe '#build' do
     subject { Fabricate.build("#{fabricator_name}_with_children") }
 
-    it { should_not be_persisted }
+    it { is_expected.not_to be_persisted }
 
     it 'cascades to child records' do
       subject.send(collection_field).each do |o|
@@ -88,7 +88,7 @@ shared_examples 'something fabricatable' do
   describe '#attributes_for' do
     subject { Fabricate.attributes_for(fabricator_name) }
 
-    it { should be_kind_of(Fabrication::Support.hash_class) }
+    it { is_expected.to be_kind_of(Fabrication::Support.hash_class) }
 
     it 'serializes the attributes' do
       expect(subject).to include(
@@ -141,7 +141,7 @@ describe Fabrication do
 
       let(:parent_model) { Fabricate(:parent_active_record_model_with_children) }
 
-      it { should be_kind_of(ChildActiveRecordModel) }
+      it { is_expected.to be_kind_of(ChildActiveRecordModel) }
     end
   end
 

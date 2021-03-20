@@ -4,7 +4,7 @@ describe Fabrication::Sequencer do
   context 'with no arguments' do
     subject { described_class.sequence }
 
-    it { should == 0 }
+    it { is_expected.to eq(0) }
 
     it 'creates a default sequencer' do
       expect(described_class.sequences[:_default]).to eq(1)

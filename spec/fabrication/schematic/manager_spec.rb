@@ -43,13 +43,13 @@ describe Fabrication::Schematic::Manager do
     context 'with a symbol' do
       let(:key) { :some }
 
-      it { should == 'thing' }
+      it { is_expected.to eq('thing') }
     end
 
     context 'with a string' do
       let(:key) { 'some' }
 
-      it { should == 'thing' }
+      it { is_expected.to eq('thing') }
     end
   end
 

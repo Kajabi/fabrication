@@ -37,7 +37,7 @@ describe Fabrication::Schematic::Attribute do
   describe '#transient?' do
     subject { described_class.new(Object, 'a', nil, transient: true) }
 
-    it { should be_transient }
+    it { is_expected.to be_transient }
   end
 
   describe '#processed_value' do
@@ -46,7 +46,7 @@ describe Fabrication::Schematic::Attribute do
     context 'with a singular value' do
       let(:attribute) { described_class.new(Object, 'a', 'something') }
 
-      it { should == 'something' }
+      it { is_expected.to eq('something') }
     end
 
     context 'with a singular block' do
@@ -54,7 +54,7 @@ describe Fabrication::Schematic::Attribute do
         described_class.new(Object, 'a', nil, {}) { 'something' }
       end
 
-      it { should == 'something' }
+      it { is_expected.to eq('something') }
     end
 
     context 'with a collection block' do
@@ -62,7 +62,7 @@ describe Fabrication::Schematic::Attribute do
         described_class.new(Object, 'a', nil, { count: 2 }) { 'something' }
       end
 
-      it { should == %w[something something] }
+      it { is_expected.to eq(%w[something something]) }
     end
 
     context 'with a collection block with random amount' do

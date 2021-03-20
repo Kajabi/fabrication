@@ -15,19 +15,19 @@ describe Fabrication::Schematic::Definition do
     context 'with an activerecord object', depends_on: :active_record do
       let(:klass) { 'ParentActiveRecordModel' }
 
-      it { should == Fabrication::Generator::ActiveRecord }
+      it { is_expected.to eq(Fabrication::Generator::ActiveRecord) }
     end
 
     context 'with a mongoid object', depends_on: :mongoid do
       let(:klass) { 'ParentMongoidDocument' }
 
-      it { should == Fabrication::Generator::Mongoid }
+      it { is_expected.to eq(Fabrication::Generator::Mongoid) }
     end
 
     context 'with a sequel object', depends_on: :sequel do
       let(:klass) { 'ParentSequelModel' }
 
-      it { should == Fabrication::Generator::Sequel }
+      it { is_expected.to eq(Fabrication::Generator::Sequel) }
     end
   end
 
@@ -256,12 +256,12 @@ describe Fabrication::Schematic::Definition do
       end
     end
 
-    it { should == %i[one two three] }
+    it { is_expected.to eq(%i[one two three]) }
   end
 
   describe '#klass' do
     subject { schematic.klass }
 
-    it { should be OpenStruct }
+    it { is_expected.to be OpenStruct }
   end
 end

@@ -17,20 +17,20 @@ describe Fabrication::Cucumber::StepFabricator do
         )
       end
 
-      it { should == 'Boom' }
+      it { is_expected.to eq('Boom') }
 
       context 'with a human name' do
         let(:name) { 'weiner dogs' }
         let(:fabricator_name) { :weiner_dog }
 
-        it { should == 'Boom' }
+        it { is_expected.to eq('Boom') }
       end
 
       context 'with a titlecase human name' do
         let(:name) { 'Weiner Dog' }
         let(:fabricator_name) { :weiner_dog }
 
-        it { should == 'Boom' }
+        it { is_expected.to eq('Boom') }
       end
     end
   end

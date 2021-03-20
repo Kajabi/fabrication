@@ -8,10 +8,6 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.5
 
-# This can be enabled once rspec-its is removed
-RSpec/ImplicitExpect:
-  Enabled: False
-
 RSpec/MultipleExpectations:
   Enabled: False
 RSpec/NestedGroups:
