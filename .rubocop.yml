@@ -62,5 +62,3 @@ RSpec/NestedGroups:
   Enabled: False
 RSpec/NotToNot:
   Enabled: False
-RSpec/StubbedMock:
-  Enabled: False

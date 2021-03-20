@@ -84,8 +84,12 @@ describe Fabrication::Cucumber::StepFabricator do
       before { allow(Fabricate).to receive(:create) }
 
       it 'applies transforms' do
-        expect(Fabrication::Transform).to receive(:apply_to)
+        allow(Fabrication::Transform).to receive(:apply_to)
           .with('bears', { some: 'thing' }).and_return({})
+
+        expect(Fabrication::Transform).to receive(:apply_to)
+          .with('bears', { some: 'thing' })
+
         Fabrication::Cucumber::StepFabricator.new('bears').from_table(table)
       end
     end
