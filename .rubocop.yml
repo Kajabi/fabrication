@@ -8,6 +8,10 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.5
 
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
 RSpec/MultipleExpectations:
   Enabled: False
 RSpec/NestedGroups:
@@ -24,8 +28,6 @@ Style/MultilineBlockChain:
   Enabled: false
 
 Metrics/AbcSize:
-  Enabled: False
-Metrics/BlockLength:
   Enabled: False
 Metrics/ClassLength:
   Enabled: False
