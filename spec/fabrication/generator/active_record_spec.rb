@@ -8,26 +8,22 @@ end
 
 describe Fabrication::Generator::ActiveRecord do
   describe '.supports?' do
-    subject { Fabrication::Generator::ActiveRecord }
-
     let(:active_record_fake) { ActiveRecord }
 
     it 'returns false for active record objects without ar::base' do
-      expect(subject.supports?(active_record_fake)).to be false
+      expect(described_class.supports?(active_record_fake)).to be false
     end
   end
 end
 
 describe Fabrication::Generator::ActiveRecord, depends_on: :active_record do
   describe '.supports?' do
-    subject { Fabrication::Generator::ActiveRecord }
-
     it 'returns true for active record objects' do
-      expect(subject.supports?(ParentActiveRecordModel)).to be true
+      expect(described_class.supports?(ParentActiveRecordModel)).to be true
     end
 
     it 'returns false for non-active record objects' do
-      expect(subject.supports?(ParentRubyObject)).to be false
+      expect(described_class.supports?(ParentRubyObject)).to be false
     end
   end
 

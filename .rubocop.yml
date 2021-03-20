@@ -8,6 +8,8 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.5
 
+RSpec/NestedGroups:
+  Enabled: False
 Style/Documentation:
   Enabled: False
 Style/FrozenStringLiteralComment:
@@ -55,8 +57,4 @@ RSpec/MessageSpies:
 RSpec/MultipleDescribes:
   Enabled: False
 RSpec/MultipleExpectations:
-  Enabled: False
-RSpec/NamedSubject:
-  Enabled: False
-RSpec/NestedGroups:
   Enabled: False
