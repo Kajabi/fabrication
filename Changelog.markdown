@@ -1,3 +1,10 @@
+### 2.22.0 ###
+
+* Lots of small improvements to the codebase
+* Dropped support for ruby versions no longer officially supported (2.4 and below)
+* Dropped support for rails versions no longer officially supported (5.1 and below)
+* Dropped support for mongoid versions relying on unsupported active_model versions (5 and below)
+
 ### 2.21.1 ###
 
 * Fix bug where nil property overrides could be ignored (#318)
