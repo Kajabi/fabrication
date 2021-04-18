@@ -1,3 +1,8 @@
+### 2.23.0 ###
+
+* Leverage `#attributes=` when setting attributes in base generator if it exists.
+* Remove Mongoid generator in favor of the aforementioned tweak to the base generator. This does not impact Mongoid Support.
+
 ### 2.22.0 ###
 
 * Lots of small improvements to the codebase

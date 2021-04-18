@@ -5,7 +5,6 @@ module Fabrication
         Fabrication::Generator::ActiveRecord,
         Fabrication::Generator::DataMapper,
         Fabrication::Generator::Sequel,
-        Fabrication::Generator::Mongoid,
         Fabrication::Generator::Base
       ].freeze
 
