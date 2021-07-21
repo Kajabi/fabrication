@@ -6,7 +6,7 @@ AllCops:
   Exclude:
     - gemfiles/*
   NewCops: enable
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
 
 Metrics/BlockLength:
   Exclude:
