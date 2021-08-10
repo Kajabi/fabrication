@@ -17,7 +17,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
-    appraisal (2.4.0)
+    appraisal (2.4.1)
       bundler
       rake
       thor (>= 0.14.0)
@@ -134,4 +134,4 @@ DEPENDENCIES
   sqlite3
 
 BUNDLED WITH
-   2.2.15
+   2.2.22

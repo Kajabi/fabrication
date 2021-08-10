@@ -6,7 +6,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    appraisal (2.4.0)
+    appraisal (2.4.1)
       bundler
       rake
       thor (>= 0.14.0)
@@ -40,7 +40,7 @@ GEM
       cucumber-messages (~> 17.0, >= 17.0.1)
     cucumber-messages (17.0.1)
     cucumber-tag-expressions (3.0.1)
-    cucumber-wire (6.0.1)
+    cucumber-wire (6.1.0)
       cucumber-core (~> 10.0, >= 10.0.1)
       cucumber-cucumber-expressions (~> 12.1, >= 12.1.1)
       cucumber-messages (~> 17.0, >= 17.0.1)
@@ -75,16 +75,16 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.2)
-    rubocop (1.18.3)
+    rubocop (1.18.4)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml
-      rubocop-ast (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 1.8.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.8.0)
+    rubocop-ast (1.9.1)
       parser (>= 3.0.1.1)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
@@ -114,4 +114,4 @@ DEPENDENCIES
   sqlite3
 
 BUNDLED WITH
-   2.1.4
+   2.2.22
