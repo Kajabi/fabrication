@@ -53,7 +53,7 @@ module Fabrication
 
   def self.schematics
     puts 'DEPRECATION WARNING: Fabrication.schematics has been replaced by '\
-      'Fabrication.manager and will be removed in 3.0.0.'
+         'Fabrication.manager and will be removed in 3.0.0.'
     manager
   end
 end
