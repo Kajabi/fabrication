@@ -20,10 +20,6 @@ appraise 'rails-6.0' do
   gem 'activerecord', '~> 6.0.0', require: 'active_record'
 end
 
-appraise 'rails-5.2' do
-  gem 'activerecord', '~> 5.2.0', require: 'active_record'
-end
-
 appraise 'mongoid-7.x' do
   gem 'mongoid', '~> 7.0'
 end
@@ -42,4 +38,10 @@ end
 
 appraise 'sequel-4.x' do
   gem 'sequel', '~> 4.0'
+end
+
+if RUBY_VERSION < '3.0.0'
+  appraise 'rails-5.2' do
+    gem 'activerecord', '~> 5.2.0', require: 'active_record'
+  end
 end
