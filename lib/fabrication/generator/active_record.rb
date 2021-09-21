@@ -6,8 +6,8 @@ module Fabrication
         # so we can't assume because we have the ActiveRecord module that we also
         # have ActiveRecord::Base. Because defined? can return nil we ensure that nil
         # becomes false.
-        defined?(::ActiveRecord) && defined?(::ActiveRecord::Base) &&
-          klass.ancestors.include?(::ActiveRecord::Base) || false
+        (defined?(::ActiveRecord) && defined?(::ActiveRecord::Base) &&
+          klass.ancestors.include?(::ActiveRecord::Base)) || false
       end
 
       def build_instance
