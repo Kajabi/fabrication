@@ -2,7 +2,7 @@
 
 * Leverage `#attributes=` when setting attributes in base generator if it exists.
 * Remove Mongoid generator in favor of the aforementioned tweak to the base generator. This does not impact Mongoid Support. (#14)
-* Leverage `camlize` from ActiveRecord if it's present. (#15)
+* Leverage ActiveSupport's camelize to produce class names if it exists (#15)
 
 ### 2.22.0 ###
 
