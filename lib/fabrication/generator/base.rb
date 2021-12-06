@@ -69,8 +69,12 @@ module Fabrication
       end
 
       def set_attributes
-        _attributes.each do |k, v|
-          _instance.send("#{k}=", v)
+        if _instance.respond_to?(:attributes=)
+          _instance.attributes = _attributes
+        else
+          _attributes.each do |k, v|
+            _instance.send("#{k}=", v)
+          end
         end
       end
 

@@ -40,9 +40,15 @@ module Fabrication
       end
 
       def variable_name_to_class_name(name)
-        name.to_s.gsub(%r{/(.?)}) do
-          "::#{Regexp.last_match(1).upcase}"
-        end.gsub(/(?:^|_)(.)/) { Regexp.last_match(1).upcase }
+        name_string = name.to_s
+
+        if name_string.respond_to?(:camelize)
+          name_string.camelize
+        else
+          name_string.gsub(%r{/(.?)}) do
+            "::#{Regexp.last_match(1).upcase}"
+          end.gsub(/(?:^|_)(.)/) { Regexp.last_match(1).upcase }
+        end
       end
 
       def find_definitions

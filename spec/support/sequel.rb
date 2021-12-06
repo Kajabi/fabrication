@@ -1,4 +1,4 @@
-if defined?(Sequel)
+if defined?(Sequel) && defined?(Sequel::Model)
   DB = Sequel.sqlite # in memory
   Sequel.extension :migration
   Sequel::Migrator.run(DB, 'spec/support/sequel_migrations', current: 0)

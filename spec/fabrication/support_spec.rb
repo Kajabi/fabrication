@@ -42,6 +42,18 @@ describe Fabrication::Support do
     end
   end
 
+  describe '.variable_name_to_class_name', depends_on: :active_support do
+    before do
+      ActiveSupport::Inflector.inflections(:en) do |inflect|
+        inflect.acronym 'OCR'
+      end
+    end
+
+    it 'handles acronyms correctly' do
+      expect(described_class.variable_name_to_class_name('ocr_test')).to eq('OCRTest')
+    end
+  end
+
   describe '.hash_class', depends_on: :active_support do
     subject { described_class.hash_class }
 

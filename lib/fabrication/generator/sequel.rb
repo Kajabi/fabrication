@@ -7,7 +7,7 @@ module Fabrication
       end
 
       def self.supports?(klass)
-        defined?(::Sequel) && klass.ancestors.include?(::Sequel::Model)
+        defined?(::Sequel) && defined?(::Sequel::Model) && klass.ancestors.include?(::Sequel::Model)
       end
 
       def set_attributes

@@ -7,7 +7,7 @@ DEFINED_CLASSES = {
   active_support: defined?(ActiveSupport),
   data_mapper: defined?(DataMapper),
   mongoid: defined?(Mongoid),
-  sequel: defined?(Sequel)
+  sequel: defined?(Sequel) && defined?(Sequel::Model)
 }.freeze
 
 # Requires supporting files with custom matchers and macros, etc,
