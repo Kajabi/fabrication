@@ -20,7 +20,7 @@ module Fabrication
       end
 
       def n(count, attrs = {})
-        count.times.map { make(attrs) }.tap { |o| remember(o) }
+        Array.new(count).map { make(attrs) }.tap { |o| remember(o) }
       end
 
       # rubocop:disable Naming/PredicateName
