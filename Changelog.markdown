@@ -1,3 +1,8 @@
+### 2.23.1 ###
+
+* Restore the explicit Mongoid generator and add a test to ensure we don't break objects that have an attributes property that isn't a mass assignment setter. (#19)
+* Install `rubocop-performance` and address some small performance issues (!12)
+
 ### 2.23.0 ###
 
 * Leverage `#attributes=` when setting attributes in base generator if it exists.
