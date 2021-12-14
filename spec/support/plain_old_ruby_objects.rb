@@ -19,7 +19,12 @@ class ParentRubyObject < Persistable
     :string_field,
     :false_field,
     :id,
-    :extra_fields
+    :extra_fields,
+    # This ensures hash-hack libraries like Hashie::Mash still function
+    # properly. Even though `attributes=` is present the above fields should
+    # still be set.
+    :attributes
+
   attr_writer :child_ruby_objects
 
   def initialize
