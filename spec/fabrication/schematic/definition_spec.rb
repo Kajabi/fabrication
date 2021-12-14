@@ -18,6 +18,12 @@ describe Fabrication::Schematic::Definition do
       it { is_expected.to eq(Fabrication::Generator::ActiveRecord) }
     end
 
+    context 'with a mongoid object', depends_on: :mongoid do
+      let(:klass) { 'ParentMongoidDocument' }
+
+      it { is_expected.to eq(Fabrication::Generator::Mongoid) }
+    end
+
     context 'with a sequel object', depends_on: :sequel do
       let(:klass) { 'ParentSequelModel' }
 

@@ -33,6 +33,7 @@ module Fabrication
     autoload :ActiveRecord,  'fabrication/generator/active_record'
     autoload :ActiveRecord4, 'fabrication/generator/active_record_4'
     autoload :DataMapper,    'fabrication/generator/data_mapper'
+    autoload :Mongoid,       'fabrication/generator/mongoid'
     autoload :Sequel,        'fabrication/generator/sequel'
     autoload :Base,          'fabrication/generator/base'
   end
