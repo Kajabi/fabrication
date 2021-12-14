@@ -4,7 +4,7 @@ module Fabrication
 
     def self.sequence(name = DEFAULT, start = nil, &block)
       idx = sequences[name] ||= start || Fabrication::Config.sequence_start
-      if block_given?
+      if block
         sequence_blocks[name] = block.to_proc
       else
         sequence_blocks[name] ||= ->(i) { i }

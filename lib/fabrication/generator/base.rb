@@ -108,7 +108,7 @@ module Fabrication
           _attributes[attribute.name] = attribute.processed_value(_attributes)
           _transient_attributes[attribute.name] = _attributes[attribute.name] if attribute.transient?
         end
-        _attributes.reject! { |k| _transient_attributes.keys.include?(k) }
+        _attributes.reject! { |k| _transient_attributes.key?(k) }
       end
     end
   end

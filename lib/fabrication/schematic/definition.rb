@@ -17,7 +17,7 @@ module Fabrication
       end
 
       def process_block(&block)
-        Fabrication::Schematic::Evaluator.new.process(self, &block) if block_given?
+        Fabrication::Schematic::Evaluator.new.process(self, &block) if block
       end
 
       def attribute(name)
