@@ -12,6 +12,12 @@ appraise 'blank-slate' do
   # Simulates a framework-less environment
 end
 
+if RUBY_VERSION > '2.7.0'
+  appraise 'rails-7.0' do
+    gem 'activerecord', '~> 7.0.0', require: 'active_record'
+  end
+end
+
 appraise 'rails-6.1' do
   gem 'activerecord', '~> 6.1.0', require: 'active_record'
 end
