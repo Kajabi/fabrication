@@ -65,8 +65,6 @@ module Fabrication
             end
           end
         end
-      rescue StandardError => e
-        raise e
       ensure
         freeze
       end
