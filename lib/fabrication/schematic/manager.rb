@@ -55,9 +55,13 @@ module Fabrication
       def load_definitions
         preinitialize
         Fabrication::Config.path_prefixes.each do |prefix|
-          Fabrication::Config.fabricator_paths.each do |folder|
-            Dir.glob(File.join(prefix.to_s, folder, '**', '*.rb')).sort.each do |file|
-              load file
+          Fabrication::Config.fabricator_paths.each do |path|
+            if File.file?(path)
+              load path
+            else
+              Dir.glob(File.join(prefix.to_s, path, '**', '*.rb')).sort.each do |file|
+                load file
+              end
             end
           end
         end

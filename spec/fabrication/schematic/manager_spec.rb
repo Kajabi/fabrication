@@ -54,23 +54,16 @@ describe Fabrication::Schematic::Manager do
   end
 
   describe '.load_definitions' do
-    before { Fabrication.clear_definitions }
+    it 'registers fabricators in files defined by the fabricator_paths' do
+      Fabrication.clear_definitions
+      Fabrication::Config.fabricator_paths << 'spec/fabricators.rb'
+      Fabrication.manager.load_definitions
 
-    context 'with multiple path_prefixes and fabricator_paths' do
-      it 'loads them all' do
-        allow(Fabrication::Config.path_prefixes).to receive(:each).and_call_original
-        allow(Fabrication::Config.fabricator_paths).to receive(:each)
-        Fabrication.manager.load_definitions
-        expect(Fabrication::Config.path_prefixes).to have_received(:each)
-        expect(Fabrication::Config.fabricator_paths).to have_received(:each)
-      end
-    end
+      # loads individual files named in fabricator_paths
+      expect(Fabrication.manager[:loaded_from_single_file]).not_to be_nil
 
-    context 'with the happy path' do
-      it 'loaded definitions' do
-        Fabrication.manager.load_definitions
-        expect(Fabrication.manager[:parent_ruby_object]).not_to be_nil
-      end
+      # loads files in folders named in fabricator_paths
+      expect(Fabrication.manager[:parent_ruby_object]).not_to be_nil
     end
 
     context 'when an error occurs during the load' do
