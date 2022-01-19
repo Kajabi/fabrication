@@ -1,3 +1,7 @@
+### 2.24.0 ###
+
+* Enhance `fabricator_paths` to accept files as well as folders (#18)
+
 ### 2.23.1 ###
 
 * Restore the explicit Mongoid generator and add a test to ensure we don't break objects that have an attributes property that isn't a mass assignment setter. (#19)

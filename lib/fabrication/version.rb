@@ -1,3 +1,3 @@
 module Fabrication
-  VERSION = '2.23.1'.freeze
+  VERSION = '2.24.0'.freeze
 end
