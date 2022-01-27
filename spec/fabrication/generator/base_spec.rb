@@ -59,6 +59,21 @@ describe Fabrication::Generator::Base do
           expect(fabricated_object.arg2).to eq(:b)
         end
       end
+
+      context 'when using transients' do
+        let(:schematic) do
+          Fabrication::Schematic::Definition.new('ClassWithInit') do
+            transient :a, :b
+            on_init { |attrs| init_with(attrs[:a], attrs[:b]) }
+          end
+        end
+        let(:fabricated_object) { schematic.fabricate(a: 'aye', b: 'bee') }
+
+        it 'sends the transient attrs to the block' do
+          expect(fabricated_object.arg1).to eq('aye')
+          expect(fabricated_object.arg2).to eq('bee')
+        end
+      end
     end
 
     context 'with initialize_with block' do
@@ -108,6 +123,23 @@ describe Fabrication::Generator::Base do
             expect(fabricated_object.arg1).to eq(nil)
             expect(fabricated_object.arg2).to eq(10)
           end
+        end
+      end
+
+      context 'when using transients' do
+        let(:schematic) do
+          Fabrication::Schematic::Definition.new('ClassWithInit') do
+            transient :a, :b
+            initialize_with do |attrs|
+              Struct.new(:arg1, :arg2).new(attrs[:a], attrs[:b])
+            end
+          end
+        end
+        let(:fabricated_object) { schematic.fabricate(a: 'aye', b: 'bee') }
+
+        it 'sends the transient attrs to the block' do
+          expect(fabricated_object.arg1).to eq('aye')
+          expect(fabricated_object.arg2).to eq('bee')
         end
       end
     end
