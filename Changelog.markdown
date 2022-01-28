@@ -1,3 +1,7 @@
+### 2.25.0 ###
+
+* Pass transients to init blocks (!16)
+
 ### 2.24.0 ###
 
 * Enhance `fabricator_paths` to accept files as well as folders (#18)
