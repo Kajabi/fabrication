@@ -54,12 +54,12 @@ module Fabrication
       end
 
       def build_instance_with_constructor_override(callback)
-        self._instance = instance_eval(&callback)
+        self._instance = instance_exec(_transient_attributes, &callback)
         set_attributes
       end
 
       def build_instance_with_init_callback(callback)
-        self._instance = _klass.new(*callback.call)
+        self._instance = _klass.new(*callback.call(_transient_attributes))
         set_attributes
       end
 
