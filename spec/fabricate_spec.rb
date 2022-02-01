@@ -65,4 +65,22 @@ describe Fabricate do
       expect(as_params[:child_active_record_models].first[:number_field]).to eq(10)
     end
   end
+
+  describe 'with notifiers configured' do
+    let(:calls) { [] }
+
+    before do
+      Fabrication::Config.register_notifier do |name, object|
+        calls.push({ name: name, object: object })
+      end
+    end
+
+    it 'sends objects to the notifiers' do
+      object1 = Fabricate(:parent_ruby_object)
+      object2 = described_class.build(:parent_ruby_object)
+
+      expect(calls).to eq([{ name: :parent_ruby_object, object: object1 },
+                           { name: :parent_ruby_object, object: object2 }])
+    end
+  end
 end

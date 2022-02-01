@@ -69,5 +69,13 @@ module Fabrication
     def recursion_limit=(limit)
       @recursion_limit = limit
     end
+
+    def notifiers
+      @notifiers ||= []
+    end
+
+    def register_notifier(&block)
+      notifiers.push(block)
+    end
   end
 end
