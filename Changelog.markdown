@@ -1,3 +1,13 @@
+### 2.26.0 ###
+
+* Use new notification system to power cucumber support (!17)
+
+If you're using the cucumber steps you'll want to regenerate them. It will not be a breaking change but will make the deprecation warnings disappear.
+
+```
+rails g fabrication:cucumber_steps
+```
+
 ### 2.25.0 ###
 
 * Pass transients to init blocks (!16)
