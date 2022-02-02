@@ -24,8 +24,6 @@ class Fabricate
   def self.build(name, overrides = {}, &block)
     fail_if_initializing(name)
     schematic(name).build(overrides, &block).tap do |object|
-      Fabrication::Cucumber::Fabrications[name] = object if Fabrication::Config.register_with_steps?
-
       Fabrication::Config.notifiers.each do |notifier|
         notifier.call(name, object)
       end

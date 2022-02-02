@@ -35,7 +35,7 @@ module Fabrication
       self.fabricator_path = folders
     end
 
-    attr_writer :sequence_start, :register_with_steps
+    attr_writer :sequence_start
 
     def sequence_start
       @sequence_start ||= 0
@@ -49,10 +49,6 @@ module Fabrication
       @path_prefix ||= [defined?(Rails) ? Rails.root : '.']
     end
     alias path_prefixes path_prefix
-
-    def register_with_steps?
-      @register_with_steps ||= nil
-    end
 
     def generators
       @generators ||= []
@@ -68,6 +64,17 @@ module Fabrication
 
     def recursion_limit=(limit)
       @recursion_limit = limit
+    end
+
+    def register_with_steps=(value)
+      puts 'DEPRECATION WARNING: Fabrication::Config.register_with_steps has been ' \
+           'deprecated. Please regenerate your cucumber steps with `rails g fabrication:cucumber_steps'
+
+      return unless value
+
+      register_notifier do |name, object|
+        Fabrication::Cucumber::Fabrications[name] = object
+      end
     end
 
     def notifiers

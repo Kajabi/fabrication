@@ -1,6 +1,8 @@
 World(FabricationMethods)
 
-Fabrication::Config.register_with_steps = true
+Fabrication::Config.register_notifier do |name, object|
+  Fabrication::Cucumber::Fabrications[name] = object
+end
 
 def with_ivars(fabricator)
   @they = yield fabricator
