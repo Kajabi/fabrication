@@ -64,9 +64,7 @@ def Fabricator(name, options = {}, &block)
 end
 
 def Fabricate(name, overrides = {}, &block)
-  Fabricate.create(name, overrides, &block).tap do |object|
-    Fabrication::Cucumber::Fabrications[name] = object if Fabrication::Config.register_with_steps?
-  end
+  Fabricate.create(name, overrides, &block)
 end
 # rubocop:enable Naming/MethodName
 
