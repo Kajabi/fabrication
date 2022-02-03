@@ -1,3 +1,7 @@
+### 2.27.0 ###
+
+* Add meta section with accurate project links (!18)
+
 ### 2.26.0 ###
 
 * Use new notification system to power cucumber support (!17)
