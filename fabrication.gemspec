@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.homepage = 'http://fabricationgem.org'
   s.require_paths = ['lib']
   s.rubygems_version = '1.3.7'
-  s.required_ruby_version = '>= 2.6.0'
+  s.required_ruby_version = '>= 2.4.0'
   s.summary = 'Generates object instances for test suites, seed files, etc.'
 
   s.files = Dir.glob('lib/**/*') + %w[LICENSE README.markdown Rakefile]
